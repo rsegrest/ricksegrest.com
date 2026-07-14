@@ -63,7 +63,7 @@ export function ProjectModal({
             <div className="flex-1 overflow-y-auto p-6">
               <div className="flex items-start justify-between gap-4">
                 <h2 className="font-display text-2xl font-bold text-white">{project.title}</h2>
-                {project.githubRepo && (
+                {project.githubRepo && false && (
                   <span className="flex shrink-0 items-center gap-1 rounded-full bg-amber-400/10 px-2.5 py-1 text-sm font-semibold text-amber-300 ring-1 ring-amber-400/20">
                     <Star className="h-4 w-4" fill="currentColor" /> {formatStars(project.stars)}
                   </span>
@@ -118,6 +118,20 @@ export function ProjectModal({
                     <Video className="h-4 w-4" /> Promo Video
                   </a>
                 )}
+                {project.subprojects?.length ? (
+                  <div className="mt-5 border-t border-[var(--color-hairline)] pt-4">
+                    <div className="mb-2 text-xs font-semibold uppercase tracking-wide text-[var(--color-fg-muted)]">Sub-projects</div>
+                    <div className="flex flex-wrap gap-2">
+                      {project.subprojects.map((s) => (
+                        <a key={s.title} href={s.repo || s.live} target="_blank" rel="noreferrer"
+                          className="flex items-center gap-1.5 rounded-lg bg-white/5 px-3 py-1.5 text-xs font-medium text-white/90 ring-1 ring-white/10 transition hover:bg-white/10">
+                          {s.repo && <Github className="h-3.5 w-3.5" />}
+                          {s.title}
+                        </a>
+                      ))}
+                    </div>
+                  </div>
+                ) : null}
                 {onEdit && (
                   <button onClick={() => onEdit(project)} className="ml-auto flex items-center gap-2 rounded-lg bg-violet-500/15 px-4 py-2 text-sm font-semibold text-white ring-1 ring-violet-400/30 transition hover:bg-violet-500/25">
                     <Pencil className="h-4 w-4" /> Edit

@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
 
 /* ───────────────────────────────────────────────────────────
    DEV GALLERY — bespoke design tokens
@@ -161,6 +162,30 @@ body {
   50% { transform: scaleY(1); }
 }
 @keyframes blink { 50% { opacity: 0.25; } }
+@keyframes dash-draw { to { stroke-dashoffset: 0; } }
+@keyframes knight-leg { 0% { transform: rotate(-5deg); } 100% { transform: rotate(5deg); } }
+@keyframes wing-flap { 0% { transform: scaleY(1); } 100% { transform: scaleY(0.3); } }
+@keyframes float-up { 0% { transform: translateY(0); opacity: 0.6; } 100% { transform: translateY(-60px); opacity: 0; } }
+@keyframes magnify-scan {
+  0% { transform: translate(0, 0) scale(1); }
+  25% { transform: translate(30px, -10px) scale(1.1); }
+  50% { transform: translate(-20px, 15px) scale(1); }
+  75% { transform: translate(10px, -5px) scale(1.05); }
+  100% { transform: translate(0, 0) scale(1); }
+}
+@keyframes annotation-pop {
+  0%, 100% { opacity: 0; transform: scale(0.9); }
+  15%, 35% { opacity: 0.7; transform: scale(1); }
+  50% { opacity: 0; }
+}
+@keyframes network-particle {
+  0%, 100% { opacity: 0; }
+  20%, 80% { opacity: 0.8; }
+}
+@keyframes bounce-curve {
+  0%, 100% { offset-distance: 0%; }
+  50% { offset-distance: 100%; }
+}
 
 /* ── reusable utilities ── */
 .animate-float { animation: float-y 6s ease-in-out infinite; }

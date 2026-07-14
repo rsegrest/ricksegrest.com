@@ -1,6 +1,7 @@
 import { forwardRef } from "react";
+import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ExternalLink, Github, Star, Video, Sparkles } from "lucide-react";
+import { ExternalLink, Github, Star, Video, Sparkles, Layers } from "lucide-react";
 import type { Project } from "@/lib/types";
 import { formatDate, formatStars, hueFromString } from "@/lib/utils";
 import { MediaPreview } from "./MediaPreview";
@@ -8,8 +9,7 @@ import { MediaPreview } from "./MediaPreview";
 export const ProjectCard = forwardRef<HTMLDivElement, {
   project: Project;
   index: number;
-  onOpen: (p: Project) => void;
-}>(function ProjectCard({ project, index, onOpen }, ref) {
+}>(function ProjectCard({ project, index }, ref) {
   const tags = project.tags.slice(0, 4);
   const extra = project.tags.length - tags.length;
 
@@ -21,11 +21,8 @@ export const ProjectCard = forwardRef<HTMLDivElement, {
       transition={{ duration: 0.45, delay: Math.min(index * 0.04, 0.4), ease: [0.22, 1, 0.36, 1] }}
       ref={ref}
     >
-      <div
-        role="button"
-        tabIndex={0}
-        onClick={() => onOpen(project)}
-        onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && (e.preventDefault(), onOpen(project))}
+      <Link
+        to={`/project/${project.id}`}
         className="group relative flex cursor-pointer flex-col overflow-hidden rounded-[var(--radius-card)] glass focusable outline-none transition-transform duration-300 hover:-translate-y-1.5"
       >
         {/* glow on hover */}
@@ -60,7 +57,7 @@ export const ProjectCard = forwardRef<HTMLDivElement, {
             <h3 className="font-display text-lg font-semibold leading-tight text-white">
               {project.title}
             </h3>
-            {project.githubRepo && (
+            {project.githubRepo && false && (
               <span className="flex shrink-0 items-center gap-1 rounded-full bg-amber-400/10 px-2 py-0.5 text-xs font-semibold text-amber-300 ring-1 ring-amber-400/20">
                 <Star className="h-3 w-3" fill="currentColor" />
                 {formatStars(project.stars)}
@@ -103,10 +100,15 @@ export const ProjectCard = forwardRef<HTMLDivElement, {
                 <Video className="h-3.5 w-3.5" /> Promo
               </a>
             )}
+            {project.subprojects?.length ? (
+              <span className="flex items-center gap-1 rounded-md bg-violet-500/15 px-2 py-1 text-xs font-medium text-violet-200 ring-1 ring-violet-400/30">
+                <Layers className="h-3.5 w-3.5" /> {project.subprojects.length} sub
+              </span>
+            ) : null}
             <span className="ml-auto text-[11px] text-[var(--color-fg-muted)]">{formatDate(project.date)}</span>
           </div>
         </div>
-      </div>
+      </Link>
     </motion.div>
   );
 });
