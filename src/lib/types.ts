@@ -68,3 +68,20 @@ export interface GalleryState {
   projects: Project[];
   lastExported?: number;
 }
+
+// ── Blog ──
+
+export interface BlogPost {
+  id: string;
+  title: string;
+  slug: string;
+  description: string;
+  date: string; // ISO yyyy-mm-dd
+  tags: string[];
+  category: string;
+  published: boolean;
+  featured?: boolean;
+  article: string; // full markdown content
+  readingTime?: number; // minutes
+  coverMedia?: ProjectMedia;
+}

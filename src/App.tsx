@@ -5,6 +5,8 @@ import { HomePage } from "@/pages/HomePage";
 import { ResumePage } from "@/pages/ResumePage";
 import { AboutPage } from "@/pages/AboutPage";
 import { ProjectPage } from "@/pages/ProjectPage";
+import { BlogListPage } from "@/pages/BlogListPage";
+import { BlogPostPage } from "@/pages/BlogPostPage";
 
 function AnimatedRoutes() {
   const location = useLocation();
@@ -20,6 +22,8 @@ function AnimatedRoutes() {
       >
         <Routes location={location}>
           <Route path="/" element={<HomePage />} />
+          <Route path="/blog" element={<BlogListPage />} />
+          <Route path="/blog/:slug" element={<BlogPostPage />} />
           <Route path="/resume" element={<ResumePage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/project/:id" element={<ProjectPage />} />
