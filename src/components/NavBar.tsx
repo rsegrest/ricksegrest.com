@@ -1,6 +1,6 @@
 import { NavLink, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
-import { LayoutGrid, FileText, User, Github, ExternalLink } from "lucide-react";
+import { LayoutGrid, FileText, User, Map, Github, ExternalLink } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const NAV_ITEMS = [
@@ -8,6 +8,8 @@ const NAV_ITEMS = [
   { to: "/resume", label: "Resume", icon: FileText },
   { to: "/about", label: "About", icon: User },
 ];
+
+const TRAVEL_MAP_URL = "http://localhost:3007";
 
 export function NavBar() {
   const location = useLocation();
@@ -57,6 +59,15 @@ export function NavBar() {
 
         {/* external links */}
         <div className="flex items-center gap-2">
+          <a
+            href={TRAVEL_MAP_URL}
+            target="_blank"
+            rel="noreferrer"
+            className="grid h-9 w-9 place-items-center rounded-xl border border-[var(--color-hairline)] bg-[var(--color-ink)]/40 text-white/70 transition hover:bg-white/5 hover:text-white"
+            title="Travel Map"
+          >
+            <Map className="h-4 w-4" />
+          </a>
           <a
             href="https://github.com/rsegrest"
             target="_blank"
