@@ -114,7 +114,7 @@ export function HomePage() {
       {/* compact hero */}
       <header className="relative z-10 overflow-hidden border-b border-[var(--color-hairline)]">
         <div className="grid-backdrop absolute inset-0" />
-        <div className="relative mx-auto max-w-7xl px-6 py-6 sm:py-8">
+        <div className="relative mx-auto max-w-7xl px-6 py-3 sm:py-4">
           <motion.div
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
@@ -122,21 +122,21 @@ export function HomePage() {
             className="flex items-center justify-between"
           >
             <div className="flex items-center gap-3">
-              <h1 className="font-display text-2xl font-bold tracking-tight sm:text-3xl">
+              <h1 className="font-display text-xl font-bold tracking-tight sm:text-2xl">
                 <span className="text-gradient">Dev Gallery</span>
               </h1>
-              <span className="hidden text-sm text-[var(--color-fg-muted)] sm:inline">
+              <span className="hidden text-xs text-[var(--color-fg-muted)] sm:inline">
                 {projects.length} projects · {categories.length} categories
               </span>
             </div>
             {/* inline stats */}
-            <div className="hidden items-center gap-4 sm:flex">
-              <div className="flex items-center gap-1.5 text-xs text-[var(--color-fg-muted)]">
-                <Github className="h-3.5 w-3.5 text-cyan-300" />
+            <div className="hidden items-center gap-3 sm:flex">
+              <div className="flex items-center gap-1.5 text-[11px] text-[var(--color-fg-muted)]">
+                <Github className="h-3 w-3 text-cyan-300" />
                 <span className="font-semibold text-white">{projects.length}</span> projects
               </div>
-              <div className="flex items-center gap-1.5 text-xs text-[var(--color-fg-muted)]">
-                <TagIcon className="h-3.5 w-3.5 text-cyan-300" />
+              <div className="flex items-center gap-1.5 text-[11px] text-[var(--color-fg-muted)]">
+                <TagIcon className="h-3 w-3 text-cyan-300" />
                 <span className="font-semibold text-white">{allTags.length}</span> tags
               </div>
             </div>
@@ -259,7 +259,7 @@ export function HomePage() {
             <p className="text-sm text-[var(--color-fg-muted)]">Try clearing some tags or the search.</p>
           </div>
         ) : (
-          <motion.div layout className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          <motion.div layout className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             <AnimatePresence>
               {filtered.map((p, i) => (
                 <ProjectCard key={p.id} project={p} index={i} />

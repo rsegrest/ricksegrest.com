@@ -52,9 +52,9 @@ export const ProjectCard = forwardRef<HTMLDivElement, {
         </div>
 
         {/* body */}
-        <div className="relative flex flex-1 flex-col gap-3 p-4">
-          <div className="flex items-start justify-between gap-3">
-            <h3 className="font-display text-lg font-semibold leading-tight text-white">
+        <div className="relative flex flex-1 flex-col gap-2 p-3">
+          <div className="flex items-start justify-between gap-2">
+            <h3 className="font-display text-base font-semibold leading-tight text-white">
               {project.title}
             </h3>
             {project.githubRepo && false && (
@@ -65,47 +65,47 @@ export const ProjectCard = forwardRef<HTMLDivElement, {
             )}
           </div>
 
-          <p className="line-clamp-2 text-sm text-[var(--color-fg-muted)]">
+          <p className="line-clamp-2 text-xs text-[var(--color-fg-muted)]">
             {project.description}
           </p>
 
-          <div className="mt-auto flex flex-wrap gap-1.5">
+          <div className="mt-auto flex flex-wrap gap-1">
             {tags.map((t) => {
               const c = `hsl(${hueFromString(t)} 80% 70%)`;
               return (
-                <span key={t} className="rounded-full px-2 py-0.5 text-[11px] font-medium" style={{ background: `color-mix(in oklch, ${c} 14%, transparent)`, border: `1px solid color-mix(in oklch, ${c} 40%, transparent)`, color: c }}>
+                <span key={t} className="rounded-full px-1.5 py-0.5 text-[10px] font-medium" style={{ background: `color-mix(in oklch, ${c} 14%, transparent)`, border: `1px solid color-mix(in oklch, ${c} 40%, transparent)`, color: c }}>
                   {t}
                 </span>
               );
             })}
-            {extra > 0 && <span className="text-[11px] text-[var(--color-fg-muted)]">+{extra}</span>}
+            {extra > 0 && <span className="text-[10px] text-[var(--color-fg-muted)]">+{extra}</span>}
           </div>
 
-          <div className="flex items-center gap-2 pt-1">
+          <div className="flex items-center gap-1.5 pt-0.5">
             {project.links.live && (
               <a href={project.links.live} target="_blank" rel="noreferrer" onClick={(e) => e.stopPropagation()}
-                className="flex items-center gap-1 rounded-md bg-white/5 px-2.5 py-1 text-xs font-medium text-white/90 transition hover:bg-white/10 ring-1 ring-white/10">
-                <ExternalLink className="h-3.5 w-3.5" /> Live
+                className="flex items-center gap-1 rounded-md bg-white/5 px-2 py-0.5 text-[10px] font-medium text-white/90 transition hover:bg-white/10 ring-1 ring-white/10">
+                <ExternalLink className="h-3 w-3" /> Live
               </a>
             )}
             {project.links.repo && (
               <a href={project.links.repo} target="_blank" rel="noreferrer" onClick={(e) => e.stopPropagation()}
-                className="flex items-center gap-1 rounded-md bg-white/5 px-2.5 py-1 text-xs font-medium text-white/90 transition hover:bg-white/10 ring-1 ring-white/10">
-                <Github className="h-3.5 w-3.5" /> Repo
+                className="flex items-center gap-1 rounded-md bg-white/5 px-2 py-0.5 text-[10px] font-medium text-white/90 transition hover:bg-white/10 ring-1 ring-white/10">
+                <Github className="h-3 w-3" /> Repo
               </a>
             )}
             {project.links.promo && (
               <a href={project.links.promo} target="_blank" rel="noreferrer" onClick={(e) => e.stopPropagation()}
-                className="flex items-center gap-1 rounded-md bg-white/5 px-2.5 py-1 text-xs font-medium text-white/90 transition hover:bg-white/10 ring-1 ring-white/10">
-                <Video className="h-3.5 w-3.5" /> Promo
+                className="flex items-center gap-1 rounded-md bg-white/5 px-2 py-0.5 text-[10px] font-medium text-white/90 transition hover:bg-white/10 ring-1 ring-white/10">
+                <Video className="h-3 w-3" /> Promo
               </a>
             )}
             {project.subprojects?.length ? (
-              <span className="flex items-center gap-1 rounded-md bg-violet-500/15 px-2 py-1 text-xs font-medium text-violet-200 ring-1 ring-violet-400/30">
-                <Layers className="h-3.5 w-3.5" /> {project.subprojects.length} sub
+              <span className="flex items-center gap-1 rounded-md bg-violet-500/15 px-2 py-0.5 text-[10px] font-medium text-violet-200 ring-1 ring-violet-400/30">
+                <Layers className="h-3 w-3" /> {project.subprojects.length} sub
               </span>
             ) : null}
-            <span className="ml-auto text-[11px] text-[var(--color-fg-muted)]">{formatDate(project.date)}</span>
+            <span className="ml-auto text-[10px] text-[var(--color-fg-muted)]">{formatDate(project.date)}</span>
           </div>
         </div>
       </Link>
