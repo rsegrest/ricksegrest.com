@@ -1,8 +1,7 @@
 import { NavLink, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
-import { LayoutGrid, FileText, User, BookOpen, Map, Github, ExternalLink, Sun, Moon } from "lucide-react";
+import { LayoutGrid, FileText, User, BookOpen, Map, Github, ExternalLink } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { useState, useEffect } from "react";
 
 const NAV_ITEMS = [
   { to: "/", label: "Gallery", icon: LayoutGrid },
@@ -15,22 +14,6 @@ const TRAVEL_MAP_URL = "http://localhost:3007";
 
 export function NavBar() {
   const location = useLocation();
-  const [dark, setDark] = useState(true);
-
-  useEffect(() => {
-    const stored = localStorage.getItem("theme");
-    if (stored === "light") {
-      setDark(false);
-      document.documentElement.classList.add("light");
-    }
-  }, []);
-
-  function toggleTheme() {
-    const next = !dark;
-    setDark(next);
-    document.documentElement.classList.toggle("light", !next);
-    localStorage.setItem("theme", next ? "dark" : "light");
-  }
 
   return (
     <nav className="sticky top-0 z-40 border-b border-[var(--color-hairline)] glass-strong">
@@ -77,13 +60,6 @@ export function NavBar() {
 
         {/* external links */}
         <div className="flex items-center gap-2">
-          <button
-            onClick={toggleTheme}
-            className="grid h-9 w-9 place-items-center rounded-xl border border-[var(--color-hairline)] bg-[var(--color-ink)]/40 text-white/70 transition hover:bg-white/5 hover:text-white"
-            title={dark ? "Switch to light mode" : "Switch to dark mode"}
-          >
-            {dark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
-          </button>
           <a
             href={TRAVEL_MAP_URL}
             target="_blank"
