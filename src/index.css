@@ -54,6 +54,19 @@ html.light {
   --color-fg: #1a1a2e;
   --color-fg-soft: #3a3a4e;
   --color-fg-muted: #6b6b85;
+  /* Invert "white" utility classes for light mode */
+  --color-white: var(--color-fg);
+  --color-white-90: color-mix(in oklch, var(--color-fg) 90%, transparent);
+  --color-white-80: color-mix(in oklch, var(--color-fg) 80%, transparent);
+  --color-white-70: color-mix(in oklch, var(--color-fg) 70%, transparent);
+  --color-white-60: color-mix(in oklch, var(--color-fg) 60%, transparent);
+  --color-white-30: color-mix(in oklch, var(--color-fg) 30%, transparent);
+  --bg-white-5: rgba(0, 0, 0, 0.04);
+  --bg-white-10: rgba(0, 0, 0, 0.07);
+  --bg-white-20: rgba(0, 0, 0, 0.12);
+  --ring-white-10: rgba(0, 0, 0, 0.08);
+  --ring-white-15: rgba(0, 0, 0, 0.12);
+  --ring-white-20: rgba(0, 0, 0, 0.15);
 }
 html.light .glass-strong {
   background: color-mix(in oklch, var(--color-ink-2) 85%, transparent);
@@ -81,6 +94,19 @@ html.light .shimmer-sweep::after {
 html.light input::placeholder {
   color: var(--color-fg-muted) !important;
 }
+/* Light mode: override hardcoded white utility classes */
+html.light .text-white { color: var(--color-fg) !important; }
+html.light .text-white\\/90 { color: var(--color-white-90) !important; }
+html.light .text-white\\/80 { color: var(--color-white-80) !important; }
+html.light .text-white\\/70 { color: var(--color-white-70) !important; }
+html.light .text-white\\/60 { color: var(--color-white-60) !important; }
+html.light .text-white\\/30 { color: var(--color-white-30) !important; }
+html.light .bg-white\\/5 { background-color: var(--bg-white-5) !important; }
+html.light .bg-white\\/10 { background-color: var(--bg-white-10) !important; }
+html.light .bg-white\\/20 { background-color: var(--bg-white-20) !important; }
+html.light .ring-white\\/10 { --tw-ring-color: var(--ring-white-10) !important; }
+html.light .ring-white\\/15 { --tw-ring-color: var(--ring-white-15) !important; }
+html.light .ring-white\\/20 { --tw-ring-color: var(--ring-white-20) !important; }
 body {
   margin: 0;
   background: var(--color-ink);
