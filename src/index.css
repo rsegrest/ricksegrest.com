@@ -107,6 +107,45 @@ html.light .bg-white\\/20 { background-color: var(--bg-white-20) !important; }
 html.light .ring-white\\/10 { --tw-ring-color: var(--ring-white-10) !important; }
 html.light .ring-white\\/15 { --tw-ring-color: var(--ring-white-15) !important; }
 html.light .ring-white\\/20 { --tw-ring-color: var(--ring-white-20) !important; }
+/* Light mode: darken accent icon/text colors */
+html.light .text-cyan-300 { color: #0891b2 !important; }
+html.light .text-violet-400 { color: #7c3aed !important; }
+html.light .text-pink-400 { color: #db2777 !important; }
+html.light .text-amber-300 { color: #d97706 !important; }
+html.light .text-cyan-400 { color: #06b6d4 !important; }
+html.light .text-violet-200 { color: #6d28d9 !important; }
+/* Light mode: darken tag pills that use inline hsl() styles */
+html.light [class*="rounded-full"][style*="hsl"] {
+  filter: brightness(0.35) saturate(1.6) !important;
+}
+/* Light mode: darken prose heading accents */
+html.light .prose-h3\:text-cyan-300 :where(h3) { color: #0891b2 !important; }
+html.light .prose-a\:text-cyan-300 :where(a) { color: #0891b2 !important; }
+html.light .prose-code\:text-cyan-300 :where(code) { color: #0891b2 !important; }
+/* Light mode: make glass surfaces more visible */
+html.light .glass {
+  background: rgba(0, 0, 0, 0.02) !important;
+  border-color: rgba(0, 0, 0, 0.08) !important;
+}
+/* Light mode: darken category filter buttons */
+html.light .bg-violet-500\\/20 { background-color: rgba(124, 58, 237, 0.15) !important; }
+html.light .ring-violet-400\\/40 { --tw-ring-color: rgba(124, 58, 237, 0.4) !important; }
+/* Light mode: darken subproject badges */
+html.light .bg-violet-500\\/15 { background-color: rgba(124, 58, 237, 0.12) !important; }
+html.light .ring-violet-400\\/30 { --tw-ring-color: rgba(124, 58, 237, 0.3) !important; }
+/* Light mode: darken featured badge gradient */
+html.light .from-cyan-500\\/20 { --tw-gradient-from: rgba(6, 182, 212, 0.25) !important; }
+html.light .to-violet-500\\/20 { --tw-gradient-to: rgba(124, 58, 237, 0.25) !important; }
+/* Light mode: darken admin button gradient */
+html.light .from-cyan-500 { --tw-gradient-from: #0891b2 !important; }
+html.light .to-violet-500 { --tw-gradient-to: #7c3aed !important; }
+html.light .shadow-violet-500\\/20 { --tw-shadow-color: rgba(124, 58, 237, 0.3) !important; }
+/* Light mode: darken amber star badges */
+html.light .bg-amber-400\\/10 { background-color: rgba(217, 119, 6, 0.12) !important; }
+html.light .ring-amber-400\\/20 { --tw-ring-color: rgba(217, 119, 6, 0.3) !important; }
+/* Light mode: darken hover gradient */
+html.light .hover\:from-cyan-500\\/30:hover { --tw-gradient-from: rgba(6, 182, 212, 0.35) !important; }
+html.light .hover\:to-violet-500\\/30:hover { --tw-gradient-to: rgba(124, 58, 237, 0.35) !important; }
 body {
   margin: 0;
   background: var(--color-ink);
