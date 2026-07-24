@@ -652,9 +652,15 @@ export function GenerativeArtCanvas({
 
   useEffect(() => {
     const canvas = canvasRef.current;
-    if (!canvas) return;
+    console.log(`[GenArt] useEffect fired for algorithm="${algorithm}", seed="${seed}"`);
+    if (!canvas) {
+      console.log(`[GenArt] No canvas element found!`);
+      return;
+    }
 
     const factory = ALGORITHMS[algorithm];
+    console.log(`[GenArt] Factory found:`, !!factory, `for algorithm="${algorithm}"`);
+    console.log(`[GenArt] Available algorithms:`, Object.keys(ALGORITHMS));
     if (!factory) return;
 
     // Combine project seed with timestamp on mount for unique-per-load art
@@ -663,38 +669,63 @@ export function GenerativeArtCanvas({
 
     let rafId: number;
     let frame = 0;
+    let drawFn: DrawFn | null = null;
+    let ctx: CanvasRenderingContext2D | null = null;
+    let active = false;
 
-    const setup = () => {
+    const initCanvas = (w: number, h: number) => {
+      if (w === 0 || h === 0) {
+        console.log(`[GenArt] Skipping init — zero dimensions: ${w}x${h}`);
+        return;
+      }
       const dpr = window.devicePixelRatio || 1;
-      const rect = canvas.getBoundingClientRect();
-      canvas.width = rect.width * dpr;
-      canvas.height = rect.height * dpr;
-      const ctx = canvas.getContext("2d");
-      if (!ctx) return;
-
+      canvas.width = w * dpr;
+      canvas.height = h * dpr;
+      ctx = canvas.getContext("2d");
+      if (!ctx) {
+        console.log(`[GenArt] No 2d context!`);
+        return;
+      }
       ctx.scale(dpr, dpr);
-      const drawFn = factory(ctx, rng, accent, rect.width, rect.height);
-
-      const loop = () => {
-        drawFn(frame++);
-        rafId = requestAnimationFrame(loop);
-      };
-      loop();
-    };
-
-    setup();
-
-    const handleResize = () => {
-      cancelAnimationFrame(rafId);
+      drawFn = factory(ctx, rng, accent, w, h);
+      active = true;
       frame = 0;
-      setup();
+      console.log(`[GenArt] Canvas initialized: ${w}x${h}, dpr=${dpr}, drawing started`);
     };
 
-    window.addEventListener("resize", handleResize);
+    const loop = () => {
+      if (active && drawFn) {
+        drawFn(frame++);
+      }
+      rafId = requestAnimationFrame(loop);
+    };
+
+    // Use ResizeObserver to detect when canvas gets real dimensions
+    const ro = new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        const { width, height } = entry.contentRect;
+        if (width > 0 && height > 0) {
+          // Cancel existing loop, re-init with new dimensions
+          cancelAnimationFrame(rafId);
+          active = false;
+          initCanvas(width, height);
+          loop();
+        }
+      }
+    });
+
+    ro.observe(canvas);
+
+    // Also try immediately in case dimensions are already available
+    const rect = canvas.getBoundingClientRect();
+    if (rect.width > 0 && rect.height > 0) {
+      initCanvas(rect.width, rect.height);
+      loop();
+    }
 
     return () => {
       cancelAnimationFrame(rafId);
-      window.removeEventListener("resize", handleResize);
+      ro.disconnect();
     };
   }, [seed, accent, algorithm]);
 
