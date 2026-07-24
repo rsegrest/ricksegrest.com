@@ -1,5 +1,5 @@
 import { forwardRef } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ExternalLink, Github, Star, Video, Sparkles, Layers } from "lucide-react";
 import type { Project } from "@/lib/types";
@@ -12,6 +12,9 @@ export const ProjectCard = forwardRef<HTMLDivElement, {
 }>(function ProjectCard({ project, index }, ref) {
   const tags = project.tags.slice(0, 4);
   const extra = project.tags.length - tags.length;
+  const navigate = useNavigate();
+
+  const handleCardClick = () => navigate(`/project/${project.id}`);
 
   return (
     <motion.div
@@ -21,8 +24,8 @@ export const ProjectCard = forwardRef<HTMLDivElement, {
       transition={{ duration: 0.45, delay: Math.min(index * 0.04, 0.4), ease: [0.22, 1, 0.36, 1] }}
       ref={ref}
     >
-      <Link
-        to={`/project/${project.id}`}
+      <div
+        onClick={handleCardClick}
         className="group relative flex cursor-pointer flex-col overflow-hidden rounded-[var(--radius-card)] glass focusable outline-none transition-transform duration-300 hover:-translate-y-1.5"
       >
         {/* glow on hover */}
@@ -108,7 +111,7 @@ export const ProjectCard = forwardRef<HTMLDivElement, {
             <span className="ml-auto text-[10px] text-[var(--color-fg-muted)]">{formatDate(project.date)}</span>
           </div>
         </div>
-      </Link>
+      </div>
     </motion.div>
   );
 });
