@@ -527,18 +527,24 @@ const decay: AlgorithmFactory = (ctx, rng, accent, w, h) => {
 
   // Step 2: Collect filled pixel positions (every Nth pixel for performance)
   const sampleStep = 3;
-  interface Cell { x: number; y: number; decay: number; speed: number; flickerPhase: number; }
+  interface Cell {
+    x: number; y: number;
+    vx: number; vy: number;
+    decay: number; speed: number; flickerPhase: number;
+    origX: number; origY: number;
+  }
   const cells: Cell[] = [];
   for (let y = 0; y < h; y += sampleStep) {
     for (let x = 0; x < w; x += sampleStep) {
       const idx = (y * w + x) * 4;
       if (pixels[idx + 3] > 128) {
         cells.push({
-          x,
-          y,
+          x, y,
+          vx: 0, vy: 0,
           decay: rng() * 0.2,
           speed: 0.0008 + rng() * 0.0025,
           flickerPhase: rng() * Math.PI * 2,
+          origX: x, origY: y,
         });
       }
     }
@@ -554,7 +560,13 @@ const decay: AlgorithmFactory = (ctx, rng, accent, w, h) => {
     const cycleProgress = (frame % cycleLength) / cycleLength;
 
     if (frame > 0 && frame % cycleLength === 0) {
-      cells.forEach((cell) => { cell.decay = rng() * 0.2; });
+      cells.forEach((cell) => {
+        cell.decay = rng() * 0.2;
+        cell.x = cell.origX;
+        cell.y = cell.origY;
+        cell.vx = 0;
+        cell.vy = 0;
+      });
     }
 
     cells.forEach((cell) => {
@@ -563,34 +575,45 @@ const decay: AlgorithmFactory = (ctx, rng, accent, w, h) => {
 
       const erosion = cell.decay;
       const flicker = Math.sin(frame * 0.02 + cell.flickerPhase) * 0.1 + 0.9;
-      const alpha = (1 - erosion) * 0.65 * flicker;
+      const alpha = (1 - erosion * 0.7) * 0.65 * flicker;
 
       // Color shifts from gold (#fbbf24) to green (#65a030) to dark brown (#5c3a1e) as it decays
       let r: number, g: number, b: number;
       if (erosion < 0.5) {
-        // gold → green (0 to 0.5)
         const t = erosion / 0.5;
         r = Math.round(251 + (101 - 251) * t);
         g = Math.round(191 + (160 - 191) * t);
         b = Math.round(36 + (48 - 36) * t);
       } else {
-        // green → dark brown (0.5 to 1)
         const t = (erosion - 0.5) / 0.5;
         r = Math.round(101 + (92 - 101) * t);
         g = Math.round(160 + (58 - 160) * t);
         b = Math.round(48 + (30 - 48) * t);
       }
 
-      const colorStr = `rgba(${r}, ${g}, ${b}, ${alpha})`;
+      // Gravity kicks in as erosion increases — blocks start to fall
+      if (erosion > 0.3) {
+        const fallStrength = (erosion - 0.3) * 0.15;
+        cell.vy += fallStrength;
+        cell.vx += (rng() - 0.5) * fallStrength * 0.5; // slight horizontal drift
+      }
+      cell.x += cell.vx;
+      cell.y += cell.vy;
 
-      if (alpha > 0.02) {
+      // Stay on screen — fade out at bottom
+      let drawAlpha = alpha;
+      if (cell.y > h - 10) {
+        drawAlpha = alpha * Math.max(0, 1 - (cell.y - (h - 10)) / 20);
+      }
+
+      if (drawAlpha > 0.02 && cell.y < h + 20) {
         if (erosion > 0.6) {
           // Scattered fragments
           const fragCount = Math.floor((1 - erosion) * 2) + 1;
           for (let f = 0; f < fragCount; f++) {
             const fx = cell.x + (rng() - 0.5) * cellSize * erosion * 3;
             const fy = cell.y + (rng() - 0.5) * cellSize * erosion * 3;
-            ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${alpha * 0.5})`;
+            ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${drawAlpha * 0.5})`;
             ctx.beginPath();
             ctx.arc(fx, fy, 1.2, 0, Math.PI * 2);
             ctx.fill();
@@ -600,7 +623,7 @@ const decay: AlgorithmFactory = (ctx, rng, accent, w, h) => {
           const jitter = erosion * 1.5;
           const jx = cell.x + (rng() - 0.5) * jitter;
           const jy = cell.y + (rng() - 0.5) * jitter;
-          ctx.fillStyle = colorStr;
+          ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${drawAlpha})`;
           ctx.fillRect(jx, jy, cellSize, cellSize);
         }
       }
