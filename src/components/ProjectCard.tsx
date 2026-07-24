@@ -33,7 +33,7 @@ export const ProjectCard = forwardRef<HTMLDivElement, {
 
         {/* media */}
         <div className="relative aspect-[16/10] overflow-hidden">
-          <MediaPreview media={project.media} priority={index < 4} className="h-full w-full transition-transform duration-700 group-hover:scale-[1.04]" />
+          <MediaPreview media={project.media} priority={index < 4} projectId={project.id} className="h-full w-full transition-transform duration-700 group-hover:scale-[1.04]" />
           <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#0a0a12] via-transparent to-transparent" />
 
           <span className="absolute left-3 top-3 rounded-full bg-black/45 px-2.5 py-1 text-[11px] font-medium text-white/90 backdrop-blur-md ring-1 ring-white/10">

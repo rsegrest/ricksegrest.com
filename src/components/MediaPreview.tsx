@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Play } from "lucide-react";
 import type { AnimationKind, ProjectMedia } from "@/lib/types";
+import { GenerativeArtCanvas } from "./GenerativeArtCanvas";
 
 /* ── existing animations ── */
 
@@ -630,14 +631,28 @@ function AnimationPreview({ kind, accent }: { kind: AnimationKind; accent: strin
   }
 }
 
+/* ── generative art mapping ── */
+// Projects that use generative canvas art instead of CSS animations.
+// Key = animation kind from seed.ts, Value = generative algorithm name.
+const GENERATIVE_MAP: Partial<Record<AnimationKind, string>> = {
+  vector: "vector",        // asteroids → vector asteroid field
+  dashboard: "constellation", // mission control → constellation map
+  network: "network",      // agentic patterns → agent swarm
+  grid: "grid",            // es-vector-math → lissajous curves
+  chat: "chat",            // local-llm-chat → token stream
+  chart: "flowField",      // nasa cost estimator / inflation → flow field
+};
+
 export function MediaPreview({
   media,
   className = "",
   priority = false,
+  projectId = "",
 }: {
   media: ProjectMedia;
   className?: string;
   priority?: boolean;
+  projectId?: string;
 }) {
   const [playing, setPlaying] = useState(false);
   const accent = media.accent || "#22d3ee";
@@ -686,9 +701,21 @@ export function MediaPreview({
     );
   }
 
+  const animKind = media.animation || "aurora";
+  const generativeAlgo = GENERATIVE_MAP[animKind];
+
   return (
     <div className={`relative overflow-hidden ${className}`}>
-      <AnimationPreview kind={media.animation || "aurora"} accent={accent} />
+      {generativeAlgo ? (
+        <GenerativeArtCanvas
+          seed={projectId || animKind}
+          accent={accent}
+          algorithm={generativeAlgo}
+          className="h-full w-full"
+        />
+      ) : (
+        <AnimationPreview kind={animKind} accent={accent} />
+      )}
     </div>
   );
 }
