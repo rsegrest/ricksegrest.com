@@ -506,78 +506,46 @@ const tokenStream: AlgorithmFactory = (ctx, rng, accent, w, h) => {
   };
 };
 
-/* Dollar Decay — a $ symbol made from a pixel bitmap, eroding over time */
+/* Dollar Decay — renders a $ via canvas text, samples pixels, erodes them over time */
 const decay: AlgorithmFactory = (ctx, rng, accent, w, h) => {
-  // High-res $ bitmap — 30 cols x 40 rows (1 = filled, 0 = empty)
-  // Two vertical bars at cols 12-15, S curve around them, bars extend past S
-  const DOLLAR = [
-    [0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-    [0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-    [0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-    [0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-    [0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0],
-    [0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0],
-    [0,0,1,1,1,1,1,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-    [0,0,0,1,1,1,1,1,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-    [0,0,0,1,1,1,1,1,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-    [0,0,0,0,1,1,1,1,1,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-    [0,0,0,0,1,1,1,1,1,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-    [0,0,0,0,0,1,1,1,1,1,0,0,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-    [0,0,0,0,0,1,1,1,1,1,0,0,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-    [0,0,0,0,0,0,1,1,1,1,1,0,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-    [0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-    [0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-    [0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-    [0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-    [0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-    [0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0],
-    [0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0],
-    [0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0],
-    [0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0],
-    [0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,1,1,1,1,1,0,0,0,0,0],
-    [0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,1,1,1,1,1,0,0,0,0,0],
-    [0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,1,1,1,1,1,0,0,0,0],
-    [0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,1,1,1,1,1,0,0,0,0],
-    [0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,1,1,1,1,1,0,0,0,0],
-    [0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,1,1,1,1,1,0,0,0],
-    [0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,1,1,1,1,1,0,0,0],
-    [0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,1,1,1,1,1,0,0,0],
-    [0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,1,1,1,1,1,0,0],
-    [0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,1,1,1,1,1,0,0],
-    [0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0],
-    [0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0],
-    [0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-    [0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-    [0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-    [0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-    [0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-  ];
-  const bmCols = 30;
-  const bmRows = 40;
+  // Step 1: Draw a $ character to an offscreen canvas, sample its pixels
+  const off = document.createElement("canvas");
+  off.width = w;
+  off.height = h;
+  const octx = off.getContext("2d");
+  if (!octx) return () => {};
 
-  // Scale bitmap to fit canvas
-  const cellSize = Math.min(w / (bmCols + 2), h / (bmRows + 2));
-  const offsetX = (w - bmCols * cellSize) / 2;
-  const offsetY = (h - bmRows * cellSize) / 2;
+  const fontSize = Math.min(w, h) * 0.75;
+  octx.fillStyle = "#fff";
+  octx.font = `bold ${fontSize}px Arial, sans-serif`;
+  octx.textAlign = "center";
+  octx.textBaseline = "middle";
+  octx.fillText("$", w / 2, h / 2);
 
-  // Build cell list from bitmap
+  const imgData = octx.getImageData(0, 0, w, h);
+  const pixels = imgData.data;
+
+  // Step 2: Collect filled pixel positions (every Nth pixel for performance)
+  const sampleStep = 3;
   interface Cell { x: number; y: number; decay: number; speed: number; flickerPhase: number; }
   const cells: Cell[] = [];
-  for (let r = 0; r < bmRows; r++) {
-    for (let c = 0; c < bmCols; c++) {
-      if (DOLLAR[r][c]) {
+  for (let y = 0; y < h; y += sampleStep) {
+    for (let x = 0; x < w; x += sampleStep) {
+      const idx = (y * w + x) * 4;
+      if (pixels[idx + 3] > 128) {
         cells.push({
-          x: offsetX + c * cellSize,
-          y: offsetY + r * cellSize,
+          x,
+          y,
           decay: rng() * 0.2,
-          speed: 0.001 + rng() * 0.003,
+          speed: 0.0008 + rng() * 0.0025,
           flickerPhase: rng() * Math.PI * 2,
         });
       }
     }
   }
 
-  const cycleLength = 480; // ~8 seconds at 60fps
+  const cellSize = sampleStep;
+  const cycleLength = 480;
 
   return (frame) => {
     ctx.fillStyle = "rgba(7, 7, 15, 0.1)";
@@ -585,7 +553,6 @@ const decay: AlgorithmFactory = (ctx, rng, accent, w, h) => {
 
     const cycleProgress = (frame % cycleLength) / cycleLength;
 
-    // Reset at start of each cycle
     if (frame > 0 && frame % cycleLength === 0) {
       cells.forEach((cell) => { cell.decay = rng() * 0.2; });
     }
@@ -596,19 +563,18 @@ const decay: AlgorithmFactory = (ctx, rng, accent, w, h) => {
 
       const erosion = cell.decay;
       const flicker = Math.sin(frame * 0.02 + cell.flickerPhase) * 0.1 + 0.9;
-      const alpha = (1 - erosion) * 0.6 * flicker;
-      const s = cellSize - 1;
+      const alpha = (1 - erosion) * 0.65 * flicker;
 
       if (alpha > 0.02) {
-        if (erosion > 0.5) {
+        if (erosion > 0.6) {
           // Scattered fragments
-          const fragCount = Math.floor((1 - erosion) * 3) + 1;
+          const fragCount = Math.floor((1 - erosion) * 2) + 1;
           for (let f = 0; f < fragCount; f++) {
-            const fx = cell.x + s / 2 + (rng() - 0.5) * s * erosion * 2;
-            const fy = cell.y + s / 2 + (rng() - 0.5) * s * erosion * 2;
+            const fx = cell.x + (rng() - 0.5) * cellSize * erosion * 3;
+            const fy = cell.y + (rng() - 0.5) * cellSize * erosion * 3;
             ctx.fillStyle = hexToRgba(accent, alpha * 0.5);
             ctx.beginPath();
-            ctx.arc(fx, fy, 1.5, 0, Math.PI * 2);
+            ctx.arc(fx, fy, 1.2, 0, Math.PI * 2);
             ctx.fill();
           }
         } else {
@@ -617,12 +583,12 @@ const decay: AlgorithmFactory = (ctx, rng, accent, w, h) => {
           const jx = cell.x + (rng() - 0.5) * jitter;
           const jy = cell.y + (rng() - 0.5) * jitter;
           ctx.fillStyle = hexToRgba(accent, alpha);
-          ctx.fillRect(jx, jy, s, s);
+          ctx.fillRect(jx, jy, cellSize, cellSize);
         }
       }
     });
 
-    // Progress bar at bottom showing the decay cycle
+    // Progress bar at bottom
     const barY = h - 3;
     ctx.fillStyle = hexToRgba(accent, 0.12);
     ctx.fillRect(0, barY, w, 1.5);
