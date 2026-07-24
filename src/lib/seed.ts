@@ -302,7 +302,7 @@ Joust was one of the games that made me fall in love with programming as a kid. 
     category: "Web Apps",
     tags: ["Python", "Flask", "React", "TypeScript", "Bootstrap", "Chart.js", "Docker"],
     date: "2026-02-15",
-    media: { type: "animation", animation: "chart", accent: "#22d3ee" },
+    media: { type: "animation", animation: "decay", accent: "#22d3ee" },
     links: { repo: "https://github.com/rsegrest/inflation-calc-gui" },
     githubRepo: "rsegrest/inflation-calc-gui",
     subprojects: [

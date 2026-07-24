@@ -10,6 +10,7 @@ export type AnimationKind =
   | "shimmer"      // prismatic shimmer
   | "vector"       // CRT vector graphics (Asteroids)
   | "chart"        // animated chart bars (Inflation)
+  | "decay"        // dollar decay animation (Inflation Calculator)
   | "curves"       // easing curves (Motion & Tween)
   | "knight"       // flapping knight (Joust)
   | "chat"         // streaming chat bubbles (Local LLM Chat)

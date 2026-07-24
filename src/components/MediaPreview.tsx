@@ -640,7 +640,8 @@ const GENERATIVE_MAP: Partial<Record<AnimationKind, string>> = {
   network: "network",      // agentic patterns → agent swarm
   grid: "grid",            // es-vector-math → lissajous curves
   chat: "chat",            // local-llm-chat → token stream
-  chart: "flowField",      // nasa cost estimator / inflation → flow field
+  chart: "flowField",      // nasa cost estimator → flow field
+  decay: "decay",          // inflation calculator → dollar decay
 };
 
 export function MediaPreview({

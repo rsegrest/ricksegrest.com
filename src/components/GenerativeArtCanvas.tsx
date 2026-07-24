@@ -44,19 +44,18 @@ function hexToRgba(hex: string, alpha: number): string {
    Uses the seeded rng for deterministic-but-unique-per-load output.
    ════════════════════════════════════════════════════════════ */
 
-/* Flow Field — particles following Perlin-like noise */
+/* Flow Field — particles following Perlin-like noise (SLOW) */
 const flowField: AlgorithmFactory = (ctx, rng, accent, w, h) => {
-  const particles = Array.from({ length: 120 }, () => ({
+  const particles = Array.from({ length: 80 }, () => ({
     x: rng() * w,
     y: rng() * h,
     vx: 0,
     vy: 0,
-    life: rng() * 200 + 100,
+    life: rng() * 300 + 150,
     age: 0,
-    size: rng() * 1.5 + 0.5,
+    size: rng() * 1.2 + 0.4,
   }));
 
-  // Precompute a low-res noise grid
   const noiseW = 20;
   const noiseH = 14;
   const angles: number[] = [];
@@ -64,33 +63,32 @@ const flowField: AlgorithmFactory = (ctx, rng, accent, w, h) => {
     angles.push(rng() * Math.PI * 2);
   }
 
-  const noiseScale = 0.008;
-  const tScale = 0.002;
+  const noiseScale = 0.006;
+  const tScale = 0.0008; // slower time evolution
 
   return (frame) => {
-    ctx.fillStyle = "rgba(7, 7, 15, 0.06)";
+    ctx.fillStyle = "rgba(7, 7, 15, 0.04)"; // slower fade = longer trails
     ctx.fillRect(0, 0, w, h);
 
     const phase = frame * tScale;
 
     particles.forEach((p) => {
-      // Sample noise grid with bilinear interp
       const nx = p.x * noiseScale + phase;
       const ny = p.y * noiseScale + Math.sin(phase * 0.7) * 0.3;
       const gx = Math.floor(nx) % noiseW;
       const gy = Math.floor(ny) % noiseH;
       const idx = ((gx + noiseW) % noiseW) + ((gy + noiseH) % noiseH) * noiseW;
-      const angle = angles[(idx + Math.floor(frame * 0.01)) % angles.length] + Math.sin(phase) * 0.5;
+      const angle = angles[(idx + Math.floor(frame * 0.005)) % angles.length] + Math.sin(phase) * 0.5;
 
-      p.vx = p.vx * 0.9 + Math.cos(angle) * 0.5;
-      p.vy = p.vy * 0.9 + Math.sin(angle) * 0.5;
+      p.vx = p.vx * 0.92 + Math.cos(angle) * 0.3; // slower acceleration
+      p.vy = p.vy * 0.92 + Math.sin(angle) * 0.3;
       p.x += p.vx;
       p.y += p.vy;
       p.age++;
 
       const alpha = 1 - p.age / p.life;
       if (alpha > 0) {
-        ctx.fillStyle = hexToRgba(accent, alpha * 0.5);
+        ctx.fillStyle = hexToRgba(accent, alpha * 0.45);
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
         ctx.fill();
@@ -102,7 +100,7 @@ const flowField: AlgorithmFactory = (ctx, rng, accent, w, h) => {
         p.vx = 0;
         p.vy = 0;
         p.age = 0;
-        p.life = rng() * 200 + 100;
+        p.life = rng() * 300 + 150;
       }
     });
   };
@@ -508,6 +506,119 @@ const tokenStream: AlgorithmFactory = (ctx, rng, accent, w, h) => {
   };
 };
 
+/* Dollar Decay — a $ symbol that erodes/pixelates over time, representing inflation */
+const decay: AlgorithmFactory = (ctx, rng, accent, w, h) => {
+  const cellSize = 8;
+  const cols = Math.floor(w / cellSize);
+  const rows = Math.floor(h / cellSize);
+
+  // Generate $ shape mask
+  const mask: boolean[][] = Array.from({ length: rows }, () => Array(cols).fill(false));
+  const cx = cols / 2;
+  const cy = rows / 2;
+
+  for (let r = 0; r < rows; r++) {
+    for (let c = 0; c < cols; c++) {
+      const dx = (c - cx) / cols;
+      const dy = (r - cy) / rows;
+      // Vertical bar
+      if (Math.abs(dx) < 0.06 && dy > -0.35 && dy < 0.35) mask[r][c] = true;
+      // Top curve
+      if (dy < -0.1 && dy > -0.35 && dx > -0.25 && dx < 0.25) {
+        const t = (dy + 0.35) / 0.25;
+        const curveX = Math.sin(t * Math.PI) * 0.2;
+        if (Math.abs(dx - curveX) < 0.08) mask[r][c] = true;
+      }
+      // Bottom curve
+      if (dy > 0.1 && dy < 0.35 && dx > -0.25 && dx < 0.25) {
+        const t = (dy - 0.1) / 0.25;
+        const curveX = -Math.sin(t * Math.PI) * 0.2;
+        if (Math.abs(dx - curveX) < 0.08) mask[r][c] = true;
+      }
+    }
+  }
+
+  interface Cell {
+    decay: number;
+    speed: number;
+    flickerPhase: number;
+  }
+
+  const cells: Cell[] = [];
+  const positions: { x: number; y: number }[] = [];
+
+  for (let r = 0; r < rows; r++) {
+    for (let c = 0; c < cols; c++) {
+      if (mask[r][c]) {
+        cells.push({
+          decay: rng() * 0.3,
+          speed: 0.0008 + rng() * 0.002,
+          flickerPhase: rng() * Math.PI * 2,
+        });
+        positions.push({ x: c * cellSize, y: r * cellSize });
+      }
+    }
+  }
+
+  const cycleLength = 480; // ~8 seconds at 60fps
+
+  return (frame) => {
+    ctx.fillStyle = "rgba(7, 7, 15, 0.1)";
+    ctx.fillRect(0, 0, w, h);
+
+    const cycleProgress = (frame % cycleLength) / cycleLength;
+
+    // Reset at start of each cycle
+    if (frame > 0 && frame % cycleLength === 0) {
+      cells.forEach((cell) => {
+        cell.decay = rng() * 0.2;
+      });
+    }
+
+    cells.forEach((cell, i) => {
+      const pos = positions[i];
+      if (!pos) return;
+
+      cell.decay += cell.speed;
+
+      if (cell.decay > 1) cell.decay = 1;
+
+      const erosion = cell.decay;
+      const flicker = Math.sin(frame * 0.02 + cell.flickerPhase) * 0.1 + 0.9;
+      const alpha = (1 - erosion) * 0.55 * flicker;
+
+      if (alpha > 0.02) {
+        if (erosion > 0.5) {
+          // Scattered fragments
+          const fragCount = Math.floor((1 - erosion) * 3) + 1;
+          for (let f = 0; f < fragCount; f++) {
+            const fx = pos.x + cellSize / 2 + (rng() - 0.5) * cellSize * erosion * 2;
+            const fy = pos.y + cellSize / 2 + (rng() - 0.5) * cellSize * erosion * 2;
+            ctx.fillStyle = hexToRgba(accent, alpha * 0.5);
+            ctx.beginPath();
+            ctx.arc(fx, fy, 1, 0, Math.PI * 2);
+            ctx.fill();
+          }
+        } else {
+          // Solid block with slight jitter
+          const jitter = erosion * 1.5;
+          const jx = pos.x + (rng() - 0.5) * jitter;
+          const jy = pos.y + (rng() - 0.5) * jitter;
+          ctx.fillStyle = hexToRgba(accent, alpha);
+          ctx.fillRect(jx, jy, cellSize - 1, cellSize - 1);
+        }
+      }
+    });
+
+    // Progress bar at bottom showing the decay cycle
+    const barY = h - 3;
+    ctx.fillStyle = hexToRgba(accent, 0.12);
+    ctx.fillRect(0, barY, w, 1.5);
+    ctx.fillStyle = hexToRgba(accent, 0.35);
+    ctx.fillRect(0, barY, w * cycleProgress, 1.5);
+  };
+};
+
 /* ════════════════════════════════════════════════════════════
    ALGORITHM REGISTRY
    ════════════════════════════════════════════════════════════ */
@@ -519,6 +630,7 @@ const ALGORITHMS: Record<string, AlgorithmFactory> = {
   network: agentSwarm,
   grid: lissajous,
   chat: tokenStream,
+  decay,
 };
 
 /* ════════════════════════════════════════════════════════════
