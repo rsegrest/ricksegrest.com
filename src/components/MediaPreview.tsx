@@ -615,6 +615,7 @@ function AnimationPreview({ kind, accent }: { kind: AnimationKind; accent: strin
     case "shimmer": return <Shimmer accent={accent} />;
     case "vector": return <Vector accent={accent} />;
     case "chart": return <Chart accent={accent} />;
+    case "decay": return <Chart accent={accent} />; // fallback — generative canvas handles this
     case "curves": return <Curves accent={accent} />;
     case "knight": return <Knight accent={accent} />;
     case "chat": return <Chat accent={accent} />;
