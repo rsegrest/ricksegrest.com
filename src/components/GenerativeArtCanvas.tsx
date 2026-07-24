@@ -508,22 +508,25 @@ const tokenStream: AlgorithmFactory = (ctx, rng, accent, w, h) => {
 
 /* Dollar Decay — a $ symbol made from a pixel bitmap, eroding over time */
 const decay: AlgorithmFactory = (ctx, rng, accent, w, h) => {
-  // Explicit $ bitmap — 7 cols x 13 rows (1 = filled, 0 = empty)
+  // Explicit $ bitmap — 9 cols x 13 rows (1 = filled, 0 = empty)
+  // Two vertical bars at cols 3-4 run full height, extending past the S curve
   const DOLLAR = [
-    [0,0,1,1,1,0,0],
-    [0,1,1,1,1,1,0],
-    [1,1,0,0,1,1,1],
-    [1,1,0,0,0,0,0],
-    [0,1,1,1,1,0,0],
-    [0,0,1,1,1,1,0],
-    [0,0,0,0,1,1,1],
-    [0,0,0,0,1,1,1],
-    [1,1,0,0,1,1,1],
-    [0,1,1,1,1,1,0],
-    [0,0,1,1,1,0,0],
+    [0,0,0,1,1,0,0,0,0],  //  0 bar top (extends above S)
+    [0,0,1,1,1,1,1,0,0],  //  1 top curve
+    [0,1,1,1,1,1,1,1,0],  //  2 top curve wider
+    [1,1,1,0,1,1,0,0,0],  //  3 upper-left + bars
+    [1,1,0,0,1,1,0,0,0],  //  4 left arm + bars
+    [0,1,1,1,1,1,1,0,0],  //  5 middle-left
+    [0,0,0,1,1,1,1,1,0],  //  6 middle-right
+    [0,0,0,1,1,0,1,1,1],  //  7 lower-right + bars
+    [0,0,0,1,1,0,0,1,1],  //  8 right arm + bars
+    [1,1,1,1,1,1,0,0,0],  //  9 bottom curve left
+    [0,1,1,1,1,1,1,1,0],  // 10 bottom cap
+    [0,0,1,1,1,1,1,0,0],  // 11 bottom tip
+    [0,0,0,1,1,0,0,0,0],  // 12 bar bottom (extends below S)
   ];
-  const bmCols = 7;
-  const bmRows = 11;
+  const bmCols = 9;
+  const bmRows = 13;
 
   // Scale bitmap to fit canvas
   const cellSize = Math.min(w / (bmCols + 2), h / (bmRows + 2));
