@@ -308,7 +308,7 @@ export function ResumePage() {
 
         {/* footer */}
         <div className="mt-12 border-t border-[var(--color-hairline)] pt-6 text-center text-xs text-[var(--color-fg-muted)]">
-          Name and address available upon request ·{" "}
+          More contact information available upon request ·{" "}
           <a href="mailto:rsegrest77+ghpg@gmail.com" className="text-cyan-300 hover:underline">
             rsegrest77+ghpg@gmail.com
           </a>
