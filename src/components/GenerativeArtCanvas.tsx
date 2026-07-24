@@ -506,56 +506,43 @@ const tokenStream: AlgorithmFactory = (ctx, rng, accent, w, h) => {
   };
 };
 
-/* Dollar Decay — a $ symbol that erodes/pixelates over time, representing inflation */
+/* Dollar Decay — a $ symbol made from a pixel bitmap, eroding over time */
 const decay: AlgorithmFactory = (ctx, rng, accent, w, h) => {
-  const cellSize = 8;
-  const cols = Math.floor(w / cellSize);
-  const rows = Math.floor(h / cellSize);
+  // Explicit $ bitmap — 7 cols x 13 rows (1 = filled, 0 = empty)
+  const DOLLAR = [
+    [0,0,1,1,1,0,0],
+    [0,1,1,1,1,1,0],
+    [1,1,0,0,1,1,1],
+    [1,1,0,0,0,0,0],
+    [0,1,1,1,1,0,0],
+    [0,0,1,1,1,1,0],
+    [0,0,0,0,1,1,1],
+    [0,0,0,0,1,1,1],
+    [1,1,0,0,1,1,1],
+    [0,1,1,1,1,1,0],
+    [0,0,1,1,1,0,0],
+  ];
+  const bmCols = 7;
+  const bmRows = 11;
 
-  // Generate $ shape mask
-  const mask: boolean[][] = Array.from({ length: rows }, () => Array(cols).fill(false));
-  const cx = cols / 2;
-  const cy = rows / 2;
+  // Scale bitmap to fit canvas
+  const cellSize = Math.min(w / (bmCols + 2), h / (bmRows + 2));
+  const offsetX = (w - bmCols * cellSize) / 2;
+  const offsetY = (h - bmRows * cellSize) / 2;
 
-  for (let r = 0; r < rows; r++) {
-    for (let c = 0; c < cols; c++) {
-      const dx = (c - cx) / cols;
-      const dy = (r - cy) / rows;
-      // Vertical bar
-      if (Math.abs(dx) < 0.06 && dy > -0.35 && dy < 0.35) mask[r][c] = true;
-      // Top curve
-      if (dy < -0.1 && dy > -0.35 && dx > -0.25 && dx < 0.25) {
-        const t = (dy + 0.35) / 0.25;
-        const curveX = Math.sin(t * Math.PI) * 0.2;
-        if (Math.abs(dx - curveX) < 0.08) mask[r][c] = true;
-      }
-      // Bottom curve
-      if (dy > 0.1 && dy < 0.35 && dx > -0.25 && dx < 0.25) {
-        const t = (dy - 0.1) / 0.25;
-        const curveX = -Math.sin(t * Math.PI) * 0.2;
-        if (Math.abs(dx - curveX) < 0.08) mask[r][c] = true;
-      }
-    }
-  }
-
-  interface Cell {
-    decay: number;
-    speed: number;
-    flickerPhase: number;
-  }
-
+  // Build cell list from bitmap
+  interface Cell { x: number; y: number; decay: number; speed: number; flickerPhase: number; }
   const cells: Cell[] = [];
-  const positions: { x: number; y: number }[] = [];
-
-  for (let r = 0; r < rows; r++) {
-    for (let c = 0; c < cols; c++) {
-      if (mask[r][c]) {
+  for (let r = 0; r < bmRows; r++) {
+    for (let c = 0; c < bmCols; c++) {
+      if (DOLLAR[r][c]) {
         cells.push({
-          decay: rng() * 0.3,
-          speed: 0.0008 + rng() * 0.002,
+          x: offsetX + c * cellSize,
+          y: offsetY + r * cellSize,
+          decay: rng() * 0.2,
+          speed: 0.001 + rng() * 0.003,
           flickerPhase: rng() * Math.PI * 2,
         });
-        positions.push({ x: c * cellSize, y: r * cellSize });
       }
     }
   }
@@ -570,42 +557,37 @@ const decay: AlgorithmFactory = (ctx, rng, accent, w, h) => {
 
     // Reset at start of each cycle
     if (frame > 0 && frame % cycleLength === 0) {
-      cells.forEach((cell) => {
-        cell.decay = rng() * 0.2;
-      });
+      cells.forEach((cell) => { cell.decay = rng() * 0.2; });
     }
 
-    cells.forEach((cell, i) => {
-      const pos = positions[i];
-      if (!pos) return;
-
+    cells.forEach((cell) => {
       cell.decay += cell.speed;
-
       if (cell.decay > 1) cell.decay = 1;
 
       const erosion = cell.decay;
       const flicker = Math.sin(frame * 0.02 + cell.flickerPhase) * 0.1 + 0.9;
-      const alpha = (1 - erosion) * 0.55 * flicker;
+      const alpha = (1 - erosion) * 0.6 * flicker;
+      const s = cellSize - 1;
 
       if (alpha > 0.02) {
         if (erosion > 0.5) {
           // Scattered fragments
           const fragCount = Math.floor((1 - erosion) * 3) + 1;
           for (let f = 0; f < fragCount; f++) {
-            const fx = pos.x + cellSize / 2 + (rng() - 0.5) * cellSize * erosion * 2;
-            const fy = pos.y + cellSize / 2 + (rng() - 0.5) * cellSize * erosion * 2;
+            const fx = cell.x + s / 2 + (rng() - 0.5) * s * erosion * 2;
+            const fy = cell.y + s / 2 + (rng() - 0.5) * s * erosion * 2;
             ctx.fillStyle = hexToRgba(accent, alpha * 0.5);
             ctx.beginPath();
-            ctx.arc(fx, fy, 1, 0, Math.PI * 2);
+            ctx.arc(fx, fy, 1.5, 0, Math.PI * 2);
             ctx.fill();
           }
         } else {
           // Solid block with slight jitter
           const jitter = erosion * 1.5;
-          const jx = pos.x + (rng() - 0.5) * jitter;
-          const jy = pos.y + (rng() - 0.5) * jitter;
+          const jx = cell.x + (rng() - 0.5) * jitter;
+          const jy = cell.y + (rng() - 0.5) * jitter;
           ctx.fillStyle = hexToRgba(accent, alpha);
-          ctx.fillRect(jx, jy, cellSize - 1, cellSize - 1);
+          ctx.fillRect(jx, jy, s, s);
         }
       }
     });
