@@ -14,6 +14,9 @@ import {
   X,
   Lock,
   LogOut,
+  ArrowRight,
+  BookOpen,
+  Mail,
 } from "lucide-react";
 import type { Project, SortKey } from "@/lib/types";
 import { useGallery } from "@/lib/useGallery";
@@ -111,34 +114,65 @@ export function HomePage() {
 
   return (
     <div className="ambient relative min-h-screen">
-      {/* compact hero */}
+      {/* hero section */}
       <header className="relative z-10 overflow-hidden border-b border-[var(--color-hairline)]">
         <div className="grid-backdrop absolute inset-0" />
-        <div className="relative mx-auto max-w-7xl px-6 py-3 sm:py-4">
+        <div className="relative mx-auto max-w-7xl px-6 py-8 sm:py-10">
           <motion.div
-            initial={{ opacity: 0, y: 12 }}
+            initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-            className="flex items-center justify-between"
+            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
           >
-            <div className="flex items-center gap-3">
-              <h1 className="font-display text-xl font-bold tracking-tight sm:text-2xl">
-                <span className="text-gradient">Dev Gallery</span>
-              </h1>
-              <span className="hidden text-xs text-[var(--color-fg-muted)] sm:inline">
+            {/* name + title */}
+            <h1 className="font-display text-3xl font-bold tracking-tight sm:text-4xl">
+              <span className="text-gradient">Rick Segrest</span>
+            </h1>
+            <p className="mt-1 text-sm font-medium text-[var(--color-fg-soft)] sm:text-base">
+              Senior Software Engineer · UI/UX · Full-Stack · Data Visualization · AI Integration
+            </p>
+
+            {/* positioning statement */}
+            <p className="mt-3 max-w-2xl text-lg leading-relaxed text-white/80 sm:text-xl">
+              I build interactive data tools that make complex information explorable.
+            </p>
+
+            {/* CTA buttons */}
+            <div className="mt-5 flex flex-wrap items-center gap-2.5">
+              <a
+                href="#gallery"
+                className="flex items-center gap-1.5 rounded-lg bg-gradient-to-r from-cyan-500 to-violet-500 px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-violet-500/20 transition hover:opacity-90"
+              >
+                See My Work
+                <ArrowRight className="h-3.5 w-3.5" />
+              </a>
+              <a
+                href="/blog"
+                className="flex items-center gap-1.5 rounded-lg glass px-4 py-2 text-sm font-semibold text-cyan-300 transition hover:ring-2 hover:ring-cyan-400/40"
+              >
+                <BookOpen className="h-3.5 w-3.5" />
+                Read the Blog
+              </a>
+              <a
+                href="mailto:rsegrest77+ghpg@gmail.com"
+                className="flex items-center gap-1.5 rounded-lg glass px-4 py-2 text-sm font-semibold text-cyan-300 transition hover:ring-2 hover:ring-cyan-400/40"
+              >
+                <Mail className="h-3.5 w-3.5" />
+                Hire Me
+              </a>
+            </div>
+
+            {/* credential line */}
+            <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-[var(--color-fg-muted)]">
+              <span>20+ years experience</span>
+              <span className="text-white/20">·</span>
+              <span>NASA Engineering Materials (EM04)</span>
+              <span className="text-white/20">·</span>
+              <span>MS Modeling &amp; Simulation</span>
+              <span className="text-white/20">·</span>
+              <span className="flex items-center gap-1">
+                <Github className="h-3 w-3 text-cyan-300" />
                 {projects.length} projects · {categories.length} categories
               </span>
-            </div>
-            {/* inline stats */}
-            <div className="hidden items-center gap-3 sm:flex">
-              <div className="flex items-center gap-1.5 text-[11px] text-[var(--color-fg-muted)]">
-                <Github className="h-3 w-3 text-cyan-300" />
-                <span className="font-semibold text-white">{projects.length}</span> projects
-              </div>
-              <div className="flex items-center gap-1.5 text-[11px] text-[var(--color-fg-muted)]">
-                <TagIcon className="h-3 w-3 text-cyan-300" />
-                <span className="font-semibold text-white">{allTags.length}</span> tags
-              </div>
             </div>
           </motion.div>
         </div>
@@ -251,7 +285,7 @@ export function HomePage() {
       </div>
 
       {/* grid — 4 columns on large screens */}
-      <main className="relative z-10 mx-auto max-w-7xl px-4 py-6">
+      <main id="gallery" className="relative z-10 mx-auto max-w-7xl px-4 py-6">
         {filtered.length === 0 ? (
           <div className="grid place-items-center py-24 text-center">
             <SlidersHorizontal className="mb-3 h-8 w-8 text-[var(--color-fg-muted)]" />
