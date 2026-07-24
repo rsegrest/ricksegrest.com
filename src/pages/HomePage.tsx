@@ -303,10 +303,53 @@ export function HomePage() {
         )}
       </main>
 
+      {/* CTA section — Work with me */}
+      <section className="relative z-10 border-t border-[var(--color-hairline)]">
+        <div className="grid-backdrop absolute inset-0 opacity-50" />
+        <div className="relative mx-auto max-w-4xl px-6 py-14 text-center sm:py-16">
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+          >
+            <h2 className="font-display text-2xl font-bold tracking-tight sm:text-3xl">
+              <span className="text-gradient">Let's build something.</span>
+            </h2>
+            <p className="mx-auto mt-3 max-w-xl text-[15px] leading-relaxed text-[var(--color-fg-soft)]">
+              I'm open to consulting and full-time opportunities. If you need a developer who can
+              turn complex data into tools people actually want to use, let's talk.
+            </p>
+            <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
+              <a
+                href="mailto:rsegrest77+ghpg@gmail.com?subject=Let%27s%20work%20together"
+                className="flex items-center gap-2 rounded-lg bg-gradient-to-r from-cyan-500 to-violet-500 px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-violet-500/20 transition hover:opacity-90"
+              >
+                <Mail className="h-4 w-4" />
+                Email Me
+              </a>
+              <a
+                href="/resume.pdf"
+                download
+                className="flex items-center gap-2 rounded-lg glass px-5 py-2.5 text-sm font-semibold text-cyan-300 transition hover:ring-2 hover:ring-cyan-400/40"
+              >
+                <Download className="h-4 w-4" />
+                Download Resume
+              </a>
+              <a
+                href="/about"
+                className="flex items-center gap-2 rounded-lg glass px-5 py-2.5 text-sm font-semibold text-cyan-300 transition hover:ring-2 hover:ring-cyan-400/40"
+              >
+                <ArrowRight className="h-4 w-4" />
+                More About Me
+              </a>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
       <footer className="relative z-10 border-t border-[var(--color-hairline)] py-6 text-center text-[11px] text-[var(--color-fg-muted)]">
-        Built with Vite · React · Tailwind · Framer Motion — edit <code className="text-white/70">src/lib/seed.ts</code> and redeploy to publish.
-        {" "}
-        <button onClick={reset} className="underline hover:text-white">Reset to seed</button>.
+        Rick Segrest · Senior Software Engineer · Huntsville, AL
       </footer>
 
       {/* admin modal */}
