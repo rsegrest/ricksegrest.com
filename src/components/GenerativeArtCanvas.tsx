@@ -652,9 +652,15 @@ export function GenerativeArtCanvas({
 
   useEffect(() => {
     const canvas = canvasRef.current;
-    if (!canvas) return;
+    console.log(`[GenArt] useEffect fired for algorithm="${algorithm}", seed="${seed}"`);
+    if (!canvas) {
+      console.log(`[GenArt] No canvas element found!`);
+      return;
+    }
 
     const factory = ALGORITHMS[algorithm];
+    console.log(`[GenArt] Factory found:`, !!factory, `for algorithm="${algorithm}"`);
+    console.log(`[GenArt] Available algorithms:`, Object.keys(ALGORITHMS));
     if (!factory) return;
 
     // Combine project seed with timestamp on mount for unique-per-load art
@@ -668,16 +674,23 @@ export function GenerativeArtCanvas({
     let active = false;
 
     const initCanvas = (w: number, h: number) => {
-      if (w === 0 || h === 0) return; // not laid out yet
+      if (w === 0 || h === 0) {
+        console.log(`[GenArt] Skipping init — zero dimensions: ${w}x${h}`);
+        return;
+      }
       const dpr = window.devicePixelRatio || 1;
       canvas.width = w * dpr;
       canvas.height = h * dpr;
       ctx = canvas.getContext("2d");
-      if (!ctx) return;
+      if (!ctx) {
+        console.log(`[GenArt] No 2d context!`);
+        return;
+      }
       ctx.scale(dpr, dpr);
       drawFn = factory(ctx, rng, accent, w, h);
       active = true;
       frame = 0;
+      console.log(`[GenArt] Canvas initialized: ${w}x${h}, dpr=${dpr}, drawing started`);
     };
 
     const loop = () => {
