@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Briefcase, GraduationCap, BookOpen, Award, ExternalLink } from "lucide-react";
+import { Briefcase, GraduationCap, BookOpen, Award, ExternalLink, Download } from "lucide-react";
 
 const EXPERIENCE = [
   {
@@ -107,15 +107,27 @@ export function ResumePage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
         >
-          <h1 className="font-display text-4xl font-bold tracking-tight sm:text-5xl">
-            <span className="text-gradient">Rick Segrest</span>
-          </h1>
-          <p className="mt-2 text-lg text-[var(--color-fg-soft)]">
-            Senior Software Engineer — UI/UX · Full-Stack · Data Visualization · AI Integration
-          </p>
-          <p className="mt-1 text-sm text-[var(--color-fg-muted)]">
-            Huntsville, AL · 20+ years experience · NASA Engineering Materials (EM04)
-          </p>
+          <div className="flex flex-wrap items-start justify-between gap-4">
+            <div>
+              <h1 className="font-display text-4xl font-bold tracking-tight sm:text-5xl">
+                <span className="text-gradient">Rick Segrest</span>
+              </h1>
+              <p className="mt-2 text-lg text-[var(--color-fg-soft)]">
+                Senior Software Engineer — UI/UX · Full-Stack · Data Visualization · AI Integration
+              </p>
+              <p className="mt-1 text-sm text-[var(--color-fg-muted)]">
+                Huntsville, AL · 20+ years experience · NASA Engineering Materials (EM04)
+              </p>
+            </div>
+            <a
+              href="/resume.pdf"
+              download
+              className="flex items-center gap-2 rounded-xl glass px-4 py-2.5 text-sm font-semibold text-cyan-300 transition-all hover:ring-2 hover:ring-cyan-400/40 hover:bg-cyan-400/5"
+            >
+              <Download className="h-4 w-4" />
+              Download PDF
+            </a>
+          </div>
         </motion.div>
 
         {/* professional summary */}
