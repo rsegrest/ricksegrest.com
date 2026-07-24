@@ -565,6 +565,24 @@ const decay: AlgorithmFactory = (ctx, rng, accent, w, h) => {
       const flicker = Math.sin(frame * 0.02 + cell.flickerPhase) * 0.1 + 0.9;
       const alpha = (1 - erosion) * 0.65 * flicker;
 
+      // Color shifts from gold (#fbbf24) to green (#65a030) to dark brown (#5c3a1e) as it decays
+      let r: number, g: number, b: number;
+      if (erosion < 0.5) {
+        // gold → green (0 to 0.5)
+        const t = erosion / 0.5;
+        r = Math.round(251 + (101 - 251) * t);
+        g = Math.round(191 + (160 - 191) * t);
+        b = Math.round(36 + (48 - 36) * t);
+      } else {
+        // green → dark brown (0.5 to 1)
+        const t = (erosion - 0.5) / 0.5;
+        r = Math.round(101 + (92 - 101) * t);
+        g = Math.round(160 + (58 - 160) * t);
+        b = Math.round(48 + (30 - 48) * t);
+      }
+
+      const colorStr = `rgba(${r}, ${g}, ${b}, ${alpha})`;
+
       if (alpha > 0.02) {
         if (erosion > 0.6) {
           // Scattered fragments
@@ -572,7 +590,7 @@ const decay: AlgorithmFactory = (ctx, rng, accent, w, h) => {
           for (let f = 0; f < fragCount; f++) {
             const fx = cell.x + (rng() - 0.5) * cellSize * erosion * 3;
             const fy = cell.y + (rng() - 0.5) * cellSize * erosion * 3;
-            ctx.fillStyle = hexToRgba(accent, alpha * 0.5);
+            ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${alpha * 0.5})`;
             ctx.beginPath();
             ctx.arc(fx, fy, 1.2, 0, Math.PI * 2);
             ctx.fill();
@@ -582,7 +600,7 @@ const decay: AlgorithmFactory = (ctx, rng, accent, w, h) => {
           const jitter = erosion * 1.5;
           const jx = cell.x + (rng() - 0.5) * jitter;
           const jy = cell.y + (rng() - 0.5) * jitter;
-          ctx.fillStyle = hexToRgba(accent, alpha);
+          ctx.fillStyle = colorStr;
           ctx.fillRect(jx, jy, cellSize, cellSize);
         }
       }
