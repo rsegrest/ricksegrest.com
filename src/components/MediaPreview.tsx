@@ -705,7 +705,6 @@ export function MediaPreview({
 
   const animKind = media.animation || "aurora";
   const generativeAlgo = GENERATIVE_MAP[animKind];
-
   return (
     <div className={`relative overflow-hidden ${className}`}>
       {generativeAlgo ? (
