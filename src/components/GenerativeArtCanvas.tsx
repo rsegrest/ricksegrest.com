@@ -185,8 +185,11 @@ const constellation: AlgorithmFactory = (ctx, rng, accent, w, h) => {
 const vectorAsteroids: AlgorithmFactory = (ctx, rng, accent, w, h) => {
   const asteroids = Array.from({ length: 5 }, () => {
     const sides = 5 + Math.floor(rng() * 5);
-    const verts = Array.from({ length: sides }, () => ({
-      angle: (Math.PI * 2 * rng()) / sides + rng() * 0.3,
+    // Generate sorted angles around the circle so edges don't cross
+    const baseAngles = Array.from({ length: sides }, (_, i) => (Math.PI * 2 * i) / sides);
+    // Add slight jitter to angles and radii for organic shape
+    const verts = baseAngles.map((a) => ({
+      angle: a + (rng() - 0.5) * 0.4,
       radius: 15 + rng() * 35,
     }));
     return {
