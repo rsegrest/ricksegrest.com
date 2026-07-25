@@ -16,7 +16,8 @@ function formatSingle(iso: string): string {
   if (isNaN(d.getTime())) return iso;
   // If it's just a year (4 chars), return as-is
   if (/^\d{4}$/.test(iso)) return iso;
-  return d.toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" });
+  // Month + year only (no day)
+  return d.toLocaleDateString("en-US", { year: "numeric", month: "short" });
 }
 
 export function formatStars(n: number | undefined): string {
