@@ -201,12 +201,16 @@ const vectorAsteroids: AlgorithmFactory = (ctx, rng, accent, w, h) => {
     };
   });
 
-  // Ship
+  // Ship — navigates with momentum, wraps around edges
   const ship = {
     x: w / 2,
     y: h / 2,
-    angle: 0,
+    vx: 0.5,
+    vy: 0,
+    angle: 0,          // facing direction
     thrustPhase: 0,
+    turnTimer: 60 + Math.floor(rng() * 60),
+    _turnTarget: undefined as number | undefined,
   };
 
   return (frame) => {
@@ -250,15 +254,55 @@ const vectorAsteroids: AlgorithmFactory = (ctx, rng, accent, w, h) => {
       ctx.restore();
     });
 
-    // Draw ship (triangle) orbiting center
-    ship.angle = frame * 0.015;
-    const orbitR = Math.min(w, h) * 0.2;
-    ship.x = w / 2 + Math.cos(ship.angle) * orbitR;
-    ship.y = h / 2 + Math.sin(ship.angle) * orbitR;
+    // Ship AI: periodically turn toward a new direction
+    ship.turnTimer--;
+    if (ship.turnTimer <= 0) {
+      // Pick a new target angle
+      const targetAngle = rng() * Math.PI * 2;
+      ship.turnTimer = 80 + Math.floor(rng() * 80);
+      // Turn gradually — store the delta
+      ship._turnTarget = targetAngle;
+    }
 
+    // Smoothly turn toward target angle
+    if (ship._turnTarget !== undefined) {
+      let diff = ship._turnTarget - ship.angle;
+      // Normalize to -PI..PI
+      while (diff > Math.PI) diff -= Math.PI * 2;
+      while (diff < -Math.PI) diff += Math.PI * 2;
+      ship.angle += diff * 0.04;
+      if (Math.abs(diff) < 0.05) {
+        ship._turnTarget = undefined;
+      }
+    }
+
+    // Thrust in facing direction
+    const thrust = 0.03;
+    ship.vx += Math.cos(ship.angle) * thrust;
+    ship.vy += Math.sin(ship.angle) * thrust;
+
+    // Limit speed
+    const speed = Math.hypot(ship.vx, ship.vy);
+    const maxSpeed = 1.2;
+    if (speed > maxSpeed) {
+      ship.vx = (ship.vx / speed) * maxSpeed;
+      ship.vy = (ship.vy / speed) * maxSpeed;
+    }
+
+    // Move
+    ship.x += ship.vx;
+    ship.y += ship.vy;
+
+    // Wrap around edges
+    if (ship.x < -10) ship.x = w + 10;
+    if (ship.x > w + 10) ship.x = -10;
+    if (ship.y < -10) ship.y = h + 10;
+    if (ship.y > h + 10) ship.y = -10;
+
+    // Draw ship — pointed in direction of travel (ship.angle)
     ctx.save();
     ctx.translate(ship.x, ship.y);
-    ctx.rotate(ship.angle + Math.PI / 2);
+    ctx.rotate(ship.angle + Math.PI / 2);  // sprite points "up" by default, so rotate to face angle
     ctx.strokeStyle = "rgba(255, 255, 255, 0.8)";
     ctx.lineWidth = 1.5;
     ctx.beginPath();
