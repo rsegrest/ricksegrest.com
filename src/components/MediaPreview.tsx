@@ -582,19 +582,21 @@ function Layers({ accent }: { accent: string }) {
 
 /** Pomodoro — live countdown timer with particle effects */
 function Timer({ accent }: { accent: string }) {
-  const [secondsLeft, setSecondsLeft] = useState(25 * 60); // 25 min focus session
+  const maxSeconds = 25 * 60; // full dial = 25 min
+  const initialSeconds = useRef(Math.floor(Math.random() * 25 + 1) * 60); // random 1-25 min
+  const [secondsLeft, setSecondsLeft] = useState(initialSeconds.current);
   const [particles, setParticles] = useState<{ id: number; x: number; y: number; vx: number; vy: number; life: number }[]>([]);
   const particleId = useRef(0);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setSecondsLeft((prev) => (prev <= 0 ? 25 * 60 : prev - 1));
+      setSecondsLeft((prev) => (prev <= 0 ? initialSeconds.current : prev - 1));
     }, 1000);
     return () => clearInterval(interval);
   }, []);
 
   // Spawn particles — more frequent as time runs low
-  const urgency = 1 - secondsLeft / (25 * 60); // 0 at start, 1 at end
+  const urgency = 1 - secondsLeft / maxSeconds; // relative to full 25-min dial
   const spawnRate = Math.max(200, 1200 - urgency * 1000); // faster spawning as urgency rises
 
   useEffect(() => {
@@ -636,7 +638,7 @@ function Timer({ accent }: { accent: string }) {
   const mins = Math.floor(secondsLeft / 60);
   const secs = secondsLeft % 60;
   const timeStr = `${String(mins).padStart(2, "0")}:${String(secs).padStart(2, "0")}`;
-  const progress = secondsLeft / (25 * 60); // 1 at start, 0 at end
+  const progress = secondsLeft / maxSeconds; // ring fill relative to 25-min dial
   const circumference = 2 * Math.PI * 38;
   const dashOffset = circumference * (1 - progress);
 
