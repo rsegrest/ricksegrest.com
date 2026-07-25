@@ -325,14 +325,16 @@ const vectorAsteroids: AlgorithmFactory = (ctx, rng, accent, w, h) => {
     }
     ctx.restore();
 
-    // Occasional bullet
-    if (frame % 90 === 0) {
-      // fire
-    }
+    // Occasional bullet — fires from the front of the ship
     const bulletProgress = (frame % 90) / 90;
     if (bulletProgress < 0.3) {
-      const bx = ship.x + Math.cos(ship.angle + Math.PI / 2) * bulletProgress * 200;
-      const by = ship.y + Math.sin(ship.angle + Math.PI / 2) * bulletProgress * 200;
+      // Bullet starts at the ship's nose (8px in the facing direction) and travels forward
+      const noseOffset = 8;
+      const startX = ship.x + Math.cos(ship.angle) * noseOffset;
+      const startY = ship.y + Math.sin(ship.angle) * noseOffset;
+      const bulletDist = bulletProgress * 200;
+      const bx = startX + Math.cos(ship.angle) * bulletDist;
+      const by = startY + Math.sin(ship.angle) * bulletDist;
       ctx.fillStyle = hexToRgba(accent, 1 - bulletProgress / 0.3);
       ctx.beginPath();
       ctx.arc(bx, by, 2, 0, Math.PI * 2);
