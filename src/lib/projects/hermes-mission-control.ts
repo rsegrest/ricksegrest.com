@@ -25,33 +25,31 @@ export const hermes_mission_control: Project = {
       { label: "The Data", items: "Everything stored locally — no cloud dependency, your AI's entire history lives on your server" },
       { label: "Real-Time", items: "Watch the AI use tools live as it happens — see what it's doing, not just the final answer" },
     ],
-    article: `## What It Is
+    article: `I started talking to Hermes through a terminal. Black screen, white text, the kind of interface that makes you feel like you're doing real work until you realize you can't see what she's actually doing.
 
-I run an AI assistant (called Hermes) on my home server 24/7. It has conversations, remembers things, runs scheduled tasks, uses tools, and manages skills. But all of that was only accessible through a terminal — black screen, white text, no visuals.
+She runs 24/7 on my home server. Has conversations, remembers things, runs scheduled tasks, uses tools, manages skills. But all of that was only visible as command-line output scrolling away into a buffer I'd never read again.
 
-Mission Control is the dashboard that makes all of that visible and browsable. Think of it as the cockpit for an AI — instead of typing commands into a terminal, you click through views that show you everything the AI is doing and has ever done.
+Mission Control is the dashboard I built to fix that. Seven views, one dark glass cockpit, and I can finally see what she's up to.
 
-### The Seven Views
+### The seven views
 
-- **Chat** — talk to the AI with different personalities, watch responses appear word-by-word in real time (that's called **streaming** — instead of waiting for the entire response to be written and then showing it all at once, each word appears as it's generated, like watching someone type)
-- **Memory** — browse everything the AI has remembered about you, your projects, and your preferences
-- **Sessions** — search through every conversation you've ever had with the AI. The search is powered by something called **FTS5** (Full-Text Search), which is like Google for your own data — type a few words and instantly find every conversation where those words appeared, even from months ago
-- **Tools** — see every tool the AI has used, with a live feed and replay capability. This is part of **agent observability** — the ability to see what an AI is doing internally, not just the final answer it gives you. Without observability, an AI is a black box: you ask something, you get a response, and you have no idea what happened in between. With it, you can watch the AI think, see which tools it chose and why, and catch mistakes before they cause problems
-- **Cron** — manage scheduled tasks on a visual timeline. A **cron job** is just a task that runs automatically on a schedule — like "every morning at 9 AM, check the news and send me a summary." Instead of remembering to do it yourself, the AI does it for you, and this view shows you when each job runs, whether it succeeded, and what it produced
-- **Skills** — browse and edit the AI's capabilities and plugins
-- **Overview** — system health, recent activity, quick stats
+Chat is where you talk to her. You can switch personalities, and the responses stream in word by word instead of arriving as a finished block. Streaming isn't a feature I added for show. When she's thinking through a long problem, watching the words appear tells you she's still working, not frozen.
 
-### Why I Built It
+Memory shows everything she's remembered about you. Your projects, your preferences, the thing you mentioned once three months ago and forgot about. She doesn't.
 
-AI assistants are becoming a new kind of software — they're not just tools you use, they're agents that work on your behalf. But most AI interfaces are just chat boxes. You can't see what the AI remembers, what it's doing in the background, or what it did last week.
+Sessions is full-text search across every conversation you've ever had. It runs on FTS5, SQLite's full-text search engine. Type a few words, get back every session where those words appeared, even from months ago. I use this more than I expected.
 
-Mission Control makes the invisible visible. You can scroll through past conversations, see what the AI has learned about you over time, watch it use tools in real time, and manage its scheduled tasks — all from one interface.
+Tools is the one people fixate on. You can watch her use tools live, as it happens. Without this, an AI agent is a black box: you ask something, you get a response, and you have no idea what happened in between. With it, you can see which tools she chose, what she passed to them, where things went sideways. Agent observability, if you want the industry term.
 
-### The Design
+Cron is a visual timeline for scheduled tasks. A cron job is just a task that runs on a schedule. "Every morning at 9, check the news and send me a summary." This view shows you when each job runs, whether it succeeded, and what it produced.
 
-The dark glass aesthetic with the icon sidebar was inspired by actual mission control rooms and spaceship interfaces. It's functional — the dark background reduces eye strain during long sessions — but it's also fun. Managing an AI should feel a little bit like flying a spaceship.
+Skills is where you browse and edit her capabilities and plugins. Overview is system health and recent activity.
 
-### Why It Matters
+### Why I built it
 
-Companies are raising millions of dollars to build "AI observability" tools — dashboards for monitoring what AI agents are doing. I built my own, for my own AI, running on my own hardware. It's taught me more about what agent infrastructure actually needs than any whitepaper or conference talk.`,
+Companies are raising millions to build "AI observability" tools. Dashboards for monitoring what AI agents are doing. I built my own, for my own AI, running on my own hardware.
+
+The dark glass aesthetic came from actual mission control rooms. Dark background reduces eye strain during long sessions, but the real reason is simpler. Managing an AI should feel a little like flying a spaceship. I've spent enough time staring at white-on-black terminals to know I prefer it.
+
+Building this taught me more about what agent infrastructure actually needs than any whitepaper or conference talk. When you have to render every tool call, every memory entry, every scheduled task, you find out fast what the real requirements are.`,
   };

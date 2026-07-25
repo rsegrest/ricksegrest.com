@@ -20,28 +20,19 @@ export const inflation_calculator: Project = {
       { label: "The Data", items: "Uses official Consumer Price Index data from the U.S. Bureau of Labor Statistics going back to 1913" },
       { label: "The Chart", items: "Watch your money's purchasing power collapse over time on an interactive graph" },
     ],
-    article: `## What It Does
+    article: `My grandfather bought his first car for $2,000 in 1965. I always heard that number growing up and thought, man, cars were cheap back then. Then I ran it through this calculator. $2,000 in 1965 is about $19,500 in today's money. That car wasn't cheap. He just had different money.
 
-You've heard that "a dollar isn't worth what it used to be." This tool shows you exactly how much it's worth.
+That's the whole point of this tool. You enter any dollar amount from any month and year since 1913, pick an end date, and it tells you what that money was actually worth. The math uses official Consumer Price Index data from the U.S. Bureau of Labor Statistics. Not estimates, not a model. The actual numbers the government uses.
 
-Enter any dollar amount from any month and year since 1913. Pick an end date (or use today). The calculator tells you:
+### What you see
 
-- What that amount is worth in today's dollars
-- The total inflation rate over that period
-- How much value your money has lost
-- A chart showing the collapse over time
+The calculator gives you four things: the adjusted value in today's dollars, the total inflation rate over the period, how much purchasing power your money lost, and a chart showing the collapse over time.
 
-### An Example
+The chart is the part that gets people. Watching a line drop steadily over decades makes inflation viscerally real in a way that "a dollar isn't worth what it used to be" never does. I've watched people stare at it longer than they expected to.
 
-Say your grandfather told you he bought his first car for $2,000 in 1965. Plug that in and you'll see that's equivalent to about $19,500 today. Or look at it the other way: something that costs $100 today would have cost about $10 in 1965.
+### How it's built
 
-### Why I Built It
+Two parts. A Python Flask backend does the math with the CPI data. A React frontend makes it visual and interactive. They're separate so the calculator engine can be reused by other apps. Together they make something useful and, I'll admit, surprisingly fun to play with.
 
-Like a lot of people, I've watched my purchasing power erode over the last few years. I wanted a tool that would show me — not just tell me — what was happening. The chart is the most striking part: watching a line steadily drop over decades makes the abstract concept of inflation viscerally real.
-
-### How It's Built
-
-The project has two parts: a backend that does the math (using official government CPI data) and a frontend that makes it visual and interactive. They're separate so the calculator engine could be reused by other apps, but together they make something that's both useful and surprisingly fun to play with.
-
-Try it: pick your birth year, enter your current salary, and see what it was "worth" back then. Or pick the year you started your career and see how much your salary would need to be today just to keep up.`,
+Try this: pick your birth year, enter your current salary, see what it was "worth" back then. Or pick the year you started your career and see how much your salary would need to be today just to keep up.`,
   };
