@@ -596,7 +596,7 @@ function Timer({ accent }: { accent: string }) {
   }, []);
 
   // Spawn particles — more frequent as time runs low
-  const urgency = 1 - secondsLeft / initialSeconds.current; // 0 at start, 1 at end
+  const urgency = 1 - secondsLeft / maxSeconds; // relative to full 25-min dial
   const spawnRate = Math.max(200, 1200 - urgency * 1000); // faster spawning as urgency rises
 
   useEffect(() => {
