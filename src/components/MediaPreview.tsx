@@ -640,8 +640,8 @@ function Timer({ accent }: { accent: string }) {
   const circumference = 2 * Math.PI * 38;
   const dashOffset = circumference * (1 - progress);
 
-  // Color shifts from accent (calm) to orange/red (urgent)
-  const urgentColor = urgency > 0.7 ? "#f97316" : urgency > 0.4 ? "#fbbf24" : accent;
+  // Color shifts through tomato ripeness: green → yellow → orange → red
+  const urgentColor = urgency > 0.7 ? "#e53935" : urgency > 0.4 ? "#ff6f3c" : "#7cb342";
 
   return (
     <div className="relative grid h-full w-full place-items-center overflow-hidden bg-[#080812]">
