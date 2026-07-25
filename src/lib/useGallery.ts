@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import type { Project } from "./types";
-import { SEED_PROJECTS } from "./seed";
+import { SEED_PROJECTS } from "./projects";
 import { fetchStarsMany } from "./github";
 
 const STORAGE_KEY = "dev-gallery:v1";

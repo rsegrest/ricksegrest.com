@@ -2,7 +2,7 @@ import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { Search, Calendar, Clock, ArrowRight, BookOpen } from "lucide-react";
-import { SEED_BLOG } from "@/lib/blog-seed";
+import { SEED_BLOG } from "@/lib/blog";
 import { cn, formatDate, hueFromString } from "@/lib/utils";
 
 export function BlogListPage() {
