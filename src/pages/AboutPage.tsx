@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Github, Mail, Award, Code, Palette, Brain } from "lucide-react";
-import { ABOUT } from "@/lib/seed";
+import { ABOUT } from "@/lib/projects";
 
 const HIGHLIGHTS = [
   {

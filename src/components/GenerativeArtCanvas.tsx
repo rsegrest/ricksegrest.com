@@ -185,8 +185,11 @@ const constellation: AlgorithmFactory = (ctx, rng, accent, w, h) => {
 const vectorAsteroids: AlgorithmFactory = (ctx, rng, accent, w, h) => {
   const asteroids = Array.from({ length: 5 }, () => {
     const sides = 5 + Math.floor(rng() * 5);
-    const verts = Array.from({ length: sides }, () => ({
-      angle: (Math.PI * 2 * rng()) / sides + rng() * 0.3,
+    // Generate sorted angles around the circle so edges don't cross
+    const baseAngles = Array.from({ length: sides }, (_, i) => (Math.PI * 2 * i) / sides);
+    // Add slight jitter to angles and radii for organic shape
+    const verts = baseAngles.map((a) => ({
+      angle: a + (rng() - 0.5) * 0.4,
       radius: 15 + rng() * 35,
     }));
     return {
@@ -201,12 +204,16 @@ const vectorAsteroids: AlgorithmFactory = (ctx, rng, accent, w, h) => {
     };
   });
 
-  // Ship
+  // Ship — navigates with momentum, wraps around edges
   const ship = {
     x: w / 2,
     y: h / 2,
-    angle: 0,
+    vx: 0.5,
+    vy: 0,
+    angle: 0,          // facing direction
     thrustPhase: 0,
+    turnTimer: 60 + Math.floor(rng() * 60),
+    _turnTarget: undefined as number | undefined,
   };
 
   return (frame) => {
@@ -250,15 +257,55 @@ const vectorAsteroids: AlgorithmFactory = (ctx, rng, accent, w, h) => {
       ctx.restore();
     });
 
-    // Draw ship (triangle) orbiting center
-    ship.angle = frame * 0.015;
-    const orbitR = Math.min(w, h) * 0.2;
-    ship.x = w / 2 + Math.cos(ship.angle) * orbitR;
-    ship.y = h / 2 + Math.sin(ship.angle) * orbitR;
+    // Ship AI: periodically turn toward a new direction
+    ship.turnTimer--;
+    if (ship.turnTimer <= 0) {
+      // Pick a new target angle
+      const targetAngle = rng() * Math.PI * 2;
+      ship.turnTimer = 80 + Math.floor(rng() * 80);
+      // Turn gradually — store the delta
+      ship._turnTarget = targetAngle;
+    }
 
+    // Smoothly turn toward target angle
+    if (ship._turnTarget !== undefined) {
+      let diff = ship._turnTarget - ship.angle;
+      // Normalize to -PI..PI
+      while (diff > Math.PI) diff -= Math.PI * 2;
+      while (diff < -Math.PI) diff += Math.PI * 2;
+      ship.angle += diff * 0.04;
+      if (Math.abs(diff) < 0.05) {
+        ship._turnTarget = undefined;
+      }
+    }
+
+    // Thrust in facing direction
+    const thrust = 0.03;
+    ship.vx += Math.cos(ship.angle) * thrust;
+    ship.vy += Math.sin(ship.angle) * thrust;
+
+    // Limit speed
+    const speed = Math.hypot(ship.vx, ship.vy);
+    const maxSpeed = 1.2;
+    if (speed > maxSpeed) {
+      ship.vx = (ship.vx / speed) * maxSpeed;
+      ship.vy = (ship.vy / speed) * maxSpeed;
+    }
+
+    // Move
+    ship.x += ship.vx;
+    ship.y += ship.vy;
+
+    // Wrap around edges
+    if (ship.x < -10) ship.x = w + 10;
+    if (ship.x > w + 10) ship.x = -10;
+    if (ship.y < -10) ship.y = h + 10;
+    if (ship.y > h + 10) ship.y = -10;
+
+    // Draw ship — pointed in direction of travel (ship.angle)
     ctx.save();
     ctx.translate(ship.x, ship.y);
-    ctx.rotate(ship.angle + Math.PI / 2);
+    ctx.rotate(ship.angle + Math.PI / 2);  // sprite points "up" by default, so rotate to face angle
     ctx.strokeStyle = "rgba(255, 255, 255, 0.8)";
     ctx.lineWidth = 1.5;
     ctx.beginPath();
@@ -281,14 +328,16 @@ const vectorAsteroids: AlgorithmFactory = (ctx, rng, accent, w, h) => {
     }
     ctx.restore();
 
-    // Occasional bullet
-    if (frame % 90 === 0) {
-      // fire
-    }
+    // Occasional bullet — fires from the front of the ship
     const bulletProgress = (frame % 90) / 90;
     if (bulletProgress < 0.3) {
-      const bx = ship.x + Math.cos(ship.angle + Math.PI / 2) * bulletProgress * 200;
-      const by = ship.y + Math.sin(ship.angle + Math.PI / 2) * bulletProgress * 200;
+      // Bullet starts at the ship's nose (8px in the facing direction) and travels forward
+      const noseOffset = 8;
+      const startX = ship.x + Math.cos(ship.angle) * noseOffset;
+      const startY = ship.y + Math.sin(ship.angle) * noseOffset;
+      const bulletDist = bulletProgress * 200;
+      const bx = startX + Math.cos(ship.angle) * bulletDist;
+      const by = startY + Math.sin(ship.angle) * bulletDist;
       ctx.fillStyle = hexToRgba(accent, 1 - bulletProgress / 0.3);
       ctx.beginPath();
       ctx.arc(bx, by, 2, 0, Math.PI * 2);
@@ -506,61 +555,52 @@ const tokenStream: AlgorithmFactory = (ctx, rng, accent, w, h) => {
   };
 };
 
-/* Dollar Decay — a $ symbol that erodes/pixelates over time, representing inflation */
+/* Dollar Decay — renders a $ via canvas text, samples pixels, erodes them over time */
 const decay: AlgorithmFactory = (ctx, rng, accent, w, h) => {
-  const cellSize = 8;
-  const cols = Math.floor(w / cellSize);
-  const rows = Math.floor(h / cellSize);
+  // Step 1: Draw a $ character to an offscreen canvas, sample its pixels
+  const off = document.createElement("canvas");
+  off.width = w;
+  off.height = h;
+  const octx = off.getContext("2d");
+  if (!octx) return () => {};
 
-  // Generate $ shape mask
-  const mask: boolean[][] = Array.from({ length: rows }, () => Array(cols).fill(false));
-  const cx = cols / 2;
-  const cy = rows / 2;
+  const fontSize = Math.min(w, h) * 0.75;
+  octx.fillStyle = "#fff";
+  octx.font = `bold ${fontSize}px Arial, sans-serif`;
+  octx.textAlign = "center";
+  octx.textBaseline = "middle";
+  octx.fillText("$", w / 2, h / 2);
 
-  for (let r = 0; r < rows; r++) {
-    for (let c = 0; c < cols; c++) {
-      const dx = (c - cx) / cols;
-      const dy = (r - cy) / rows;
-      // Vertical bar
-      if (Math.abs(dx) < 0.06 && dy > -0.35 && dy < 0.35) mask[r][c] = true;
-      // Top curve
-      if (dy < -0.1 && dy > -0.35 && dx > -0.25 && dx < 0.25) {
-        const t = (dy + 0.35) / 0.25;
-        const curveX = Math.sin(t * Math.PI) * 0.2;
-        if (Math.abs(dx - curveX) < 0.08) mask[r][c] = true;
-      }
-      // Bottom curve
-      if (dy > 0.1 && dy < 0.35 && dx > -0.25 && dx < 0.25) {
-        const t = (dy - 0.1) / 0.25;
-        const curveX = -Math.sin(t * Math.PI) * 0.2;
-        if (Math.abs(dx - curveX) < 0.08) mask[r][c] = true;
-      }
-    }
-  }
+  const imgData = octx.getImageData(0, 0, w, h);
+  const pixels = imgData.data;
 
+  // Step 2: Collect filled pixel positions (every Nth pixel for performance)
+  const sampleStep = 3;
   interface Cell {
-    decay: number;
-    speed: number;
-    flickerPhase: number;
+    x: number; y: number;
+    vx: number; vy: number;
+    decay: number; speed: number; flickerPhase: number;
+    origX: number; origY: number;
   }
-
   const cells: Cell[] = [];
-  const positions: { x: number; y: number }[] = [];
-
-  for (let r = 0; r < rows; r++) {
-    for (let c = 0; c < cols; c++) {
-      if (mask[r][c]) {
+  for (let y = 0; y < h; y += sampleStep) {
+    for (let x = 0; x < w; x += sampleStep) {
+      const idx = (y * w + x) * 4;
+      if (pixels[idx + 3] > 128) {
         cells.push({
-          decay: rng() * 0.3,
-          speed: 0.0008 + rng() * 0.002,
+          x, y,
+          vx: 0, vy: 0,
+          decay: rng() * 0.2,
+          speed: 0.0008 + rng() * 0.0025,
           flickerPhase: rng() * Math.PI * 2,
+          origX: x, origY: y,
         });
-        positions.push({ x: c * cellSize, y: r * cellSize });
       }
     }
   }
 
-  const cycleLength = 480; // ~8 seconds at 60fps
+  const cellSize = sampleStep;
+  const cycleLength = 480;
 
   return (frame) => {
     ctx.fillStyle = "rgba(7, 7, 15, 0.1)";
@@ -568,49 +608,77 @@ const decay: AlgorithmFactory = (ctx, rng, accent, w, h) => {
 
     const cycleProgress = (frame % cycleLength) / cycleLength;
 
-    // Reset at start of each cycle
     if (frame > 0 && frame % cycleLength === 0) {
       cells.forEach((cell) => {
         cell.decay = rng() * 0.2;
+        cell.x = cell.origX;
+        cell.y = cell.origY;
+        cell.vx = 0;
+        cell.vy = 0;
       });
     }
 
-    cells.forEach((cell, i) => {
-      const pos = positions[i];
-      if (!pos) return;
-
+    cells.forEach((cell) => {
       cell.decay += cell.speed;
-
       if (cell.decay > 1) cell.decay = 1;
 
       const erosion = cell.decay;
       const flicker = Math.sin(frame * 0.02 + cell.flickerPhase) * 0.1 + 0.9;
-      const alpha = (1 - erosion) * 0.55 * flicker;
+      const alpha = (1 - erosion * 0.7) * 0.65 * flicker;
 
-      if (alpha > 0.02) {
-        if (erosion > 0.5) {
+      // Color shifts from gold (#fbbf24) to green (#65a030) to dark brown (#5c3a1e) as it decays
+      let r: number, g: number, b: number;
+      if (erosion < 0.5) {
+        const t = erosion / 0.5;
+        r = Math.round(251 + (101 - 251) * t);
+        g = Math.round(191 + (160 - 191) * t);
+        b = Math.round(36 + (48 - 36) * t);
+      } else {
+        const t = (erosion - 0.5) / 0.5;
+        r = Math.round(101 + (92 - 101) * t);
+        g = Math.round(160 + (58 - 160) * t);
+        b = Math.round(48 + (30 - 48) * t);
+      }
+
+      // Gravity kicks in as erosion increases — blocks start to fall
+      if (erosion > 0.3) {
+        const fallStrength = (erosion - 0.3) * 0.15;
+        cell.vy += fallStrength;
+        cell.vx += (rng() - 0.5) * fallStrength * 0.5; // slight horizontal drift
+      }
+      cell.x += cell.vx;
+      cell.y += cell.vy;
+
+      // Stay on screen — fade out at bottom
+      let drawAlpha = alpha;
+      if (cell.y > h - 10) {
+        drawAlpha = alpha * Math.max(0, 1 - (cell.y - (h - 10)) / 20);
+      }
+
+      if (drawAlpha > 0.02 && cell.y < h + 20) {
+        if (erosion > 0.6) {
           // Scattered fragments
-          const fragCount = Math.floor((1 - erosion) * 3) + 1;
+          const fragCount = Math.floor((1 - erosion) * 2) + 1;
           for (let f = 0; f < fragCount; f++) {
-            const fx = pos.x + cellSize / 2 + (rng() - 0.5) * cellSize * erosion * 2;
-            const fy = pos.y + cellSize / 2 + (rng() - 0.5) * cellSize * erosion * 2;
-            ctx.fillStyle = hexToRgba(accent, alpha * 0.5);
+            const fx = cell.x + (rng() - 0.5) * cellSize * erosion * 3;
+            const fy = cell.y + (rng() - 0.5) * cellSize * erosion * 3;
+            ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${drawAlpha * 0.5})`;
             ctx.beginPath();
-            ctx.arc(fx, fy, 1, 0, Math.PI * 2);
+            ctx.arc(fx, fy, 1.2, 0, Math.PI * 2);
             ctx.fill();
           }
         } else {
           // Solid block with slight jitter
           const jitter = erosion * 1.5;
-          const jx = pos.x + (rng() - 0.5) * jitter;
-          const jy = pos.y + (rng() - 0.5) * jitter;
-          ctx.fillStyle = hexToRgba(accent, alpha);
-          ctx.fillRect(jx, jy, cellSize - 1, cellSize - 1);
+          const jx = cell.x + (rng() - 0.5) * jitter;
+          const jy = cell.y + (rng() - 0.5) * jitter;
+          ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${drawAlpha})`;
+          ctx.fillRect(jx, jy, cellSize, cellSize);
         }
       }
     });
 
-    // Progress bar at bottom showing the decay cycle
+    // Progress bar at bottom
     const barY = h - 3;
     ctx.fillStyle = hexToRgba(accent, 0.12);
     ctx.fillRect(0, barY, w, 1.5);
@@ -652,15 +720,9 @@ export function GenerativeArtCanvas({
 
   useEffect(() => {
     const canvas = canvasRef.current;
-    console.log(`[GenArt] useEffect fired for algorithm="${algorithm}", seed="${seed}"`);
-    if (!canvas) {
-      console.log(`[GenArt] No canvas element found!`);
-      return;
-    }
+    if (!canvas) return;
 
     const factory = ALGORITHMS[algorithm];
-    console.log(`[GenArt] Factory found:`, !!factory, `for algorithm="${algorithm}"`);
-    console.log(`[GenArt] Available algorithms:`, Object.keys(ALGORITHMS));
     if (!factory) return;
 
     // Combine project seed with timestamp on mount for unique-per-load art
@@ -674,23 +736,16 @@ export function GenerativeArtCanvas({
     let active = false;
 
     const initCanvas = (w: number, h: number) => {
-      if (w === 0 || h === 0) {
-        console.log(`[GenArt] Skipping init — zero dimensions: ${w}x${h}`);
-        return;
-      }
+      if (w === 0 || h === 0) return;
       const dpr = window.devicePixelRatio || 1;
       canvas.width = w * dpr;
       canvas.height = h * dpr;
       ctx = canvas.getContext("2d");
-      if (!ctx) {
-        console.log(`[GenArt] No 2d context!`);
-        return;
-      }
+      if (!ctx) return;
       ctx.scale(dpr, dpr);
       drawFn = factory(ctx, rng, accent, w, h);
       active = true;
       frame = 0;
-      console.log(`[GenArt] Canvas initialized: ${w}x${h}, dpr=${dpr}, drawing started`);
     };
 
     const loop = () => {

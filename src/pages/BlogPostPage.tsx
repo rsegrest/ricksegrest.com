@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { Calendar, Clock, ArrowLeft, Tag, BookOpen } from "lucide-react";
-import { SEED_BLOG } from "@/lib/blog-seed";
+import { SEED_BLOG } from "@/lib/blog";
 import { formatDate, hueFromString } from "@/lib/utils";
 
 export function BlogPostPage() {
