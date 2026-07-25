@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Play } from "lucide-react";
 import type { AnimationKind, ProjectMedia } from "@/lib/types";
 import { GenerativeArtCanvas } from "./GenerativeArtCanvas";
@@ -580,25 +580,139 @@ function Layers({ accent }: { accent: string }) {
   );
 }
 
-/** Pomodoro — timer */
+/** Pomodoro — live countdown timer with particle effects */
 function Timer({ accent }: { accent: string }) {
+  const [secondsLeft, setSecondsLeft] = useState(25 * 60); // 25 min focus session
+  const [particles, setParticles] = useState<{ id: number; x: number; y: number; vx: number; vy: number; life: number }[]>([]);
+  const particleId = useRef(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setSecondsLeft((prev) => (prev <= 0 ? 25 * 60 : prev - 1));
+    }, 1000);
+    return () => clearInterval(interval);
+  }, []);
+
+  // Spawn particles — more frequent as time runs low
+  const urgency = 1 - secondsLeft / (25 * 60); // 0 at start, 1 at end
+  const spawnRate = Math.max(200, 1200 - urgency * 1000); // faster spawning as urgency rises
+
+  useEffect(() => {
+    const spawn = setInterval(() => {
+      const angle = Math.random() * Math.PI * 2;
+      const speed = 0.3 + Math.random() * (0.5 + urgency * 1.5);
+      setParticles((prev) => [
+        ...prev.slice(-30),
+        {
+          id: particleId.current++,
+          x: 50 + (Math.random() - 0.5) * 20,
+          y: 50 + (Math.random() - 0.5) * 20,
+          vx: Math.cos(angle) * speed,
+          vy: Math.sin(angle) * speed,
+          life: 1,
+        },
+      ]);
+    }, spawnRate);
+    return () => clearInterval(spawn);
+  }, [urgency, spawnRate]);
+
+  // Animate particles
+  useEffect(() => {
+    const raf = requestAnimationFrame(() => {
+      setParticles((prev) =>
+        prev
+          .map((p) => ({
+            ...p,
+            x: p.x + p.vx,
+            y: p.y + p.vy,
+            life: p.life - 0.015,
+          }))
+          .filter((p) => p.life > 0)
+      );
+    });
+    return () => cancelAnimationFrame(raf);
+  });
+
+  const mins = Math.floor(secondsLeft / 60);
+  const secs = secondsLeft % 60;
+  const timeStr = `${String(mins).padStart(2, "0")}:${String(secs).padStart(2, "0")}`;
+  const progress = secondsLeft / (25 * 60); // 1 at start, 0 at end
+  const circumference = 2 * Math.PI * 38;
+  const dashOffset = circumference * (1 - progress);
+
+  // Color shifts from accent (calm) to orange/red (urgent)
+  const urgentColor = urgency > 0.7 ? "#f97316" : urgency > 0.4 ? "#fbbf24" : accent;
+
   return (
-    <div className="relative grid h-full w-full place-items-center bg-[#080812]">
+    <div className="relative grid h-full w-full place-items-center overflow-hidden bg-[#080812]">
+      {/* particle field */}
+      <div className="absolute inset-0">
+        {particles.map((p) => (
+          <div
+            key={p.id}
+            className="absolute h-1 w-1 rounded-full"
+            style={{
+              left: `${p.x}%`,
+              top: `${p.y}%`,
+              background: urgentColor,
+              opacity: p.life * 0.6,
+              transform: `scale(${p.life})`,
+              boxShadow: `0 0 4px ${urgentColor}`,
+            }}
+          />
+        ))}
+      </div>
+
       {/* progress ring */}
-      <svg viewBox="0 0 100 100" className="h-2/3 w-2/3">
+      <svg viewBox="0 0 100 100" className="relative h-2/3 w-2/3">
         <circle cx="50" cy="50" r="38" fill="none" stroke="rgba(255,255,255,.06)" strokeWidth="3" />
         <circle
-          cx="50" cy="50" r="38" fill="none" stroke={accent} strokeWidth="3" strokeLinecap="round"
-          strokeDasharray="238.76" strokeDashoffset="60"
-          style={{ transform: "rotate(-90deg)", transformOrigin: "50px 50px", transition: "stroke-dashoffset 1s linear" }}
+          cx="50" cy="50" r="38" fill="none" stroke={urgentColor} strokeWidth="3" strokeLinecap="round"
+          strokeDasharray={circumference} strokeDashoffset={dashOffset}
+          style={{ transform: "rotate(-90deg)", transformOrigin: "50px 50px", transition: "stroke-dashoffset 1s linear, stroke 0.5s ease" }}
           opacity="0.8"
         />
+        {/* tick marks around the ring */}
+        {Array.from({ length: 60 }).map((_, i) => {
+          const angle = (i * 6 - 90) * (Math.PI / 180);
+          const isMajor = i % 5 === 0;
+          const r1 = 43;
+          const r2 = isMajor ? 46 : 45;
+          return (
+            <line
+              key={i}
+              x1={50 + r1 * Math.cos(angle)} y1={50 + r1 * Math.sin(angle)}
+              x2={50 + r2 * Math.cos(angle)} y2={50 + r2 * Math.sin(angle)}
+              stroke="rgba(255,255,255,.12)" strokeWidth={isMajor ? 0.8 : 0.4}
+            />
+          );
+        })}
         {/* time text */}
-        <text x="50" y="47" textAnchor="middle" fill="#fff" fontSize="16" fontFamily="Space Grotesk, monospace" fontWeight="700">18:42</text>
-        <text x="50" y="60" textAnchor="middle" fill={accent} fontSize="7" fontFamily="monospace" opacity="0.6">FOCUS</text>
+        <text x="50" y="47" textAnchor="middle" fill="#fff" fontSize="16" fontFamily="Space Grotesk, monospace" fontWeight="700">{timeStr}</text>
+        <text x="50" y="60" textAnchor="middle" fill={urgentColor} fontSize="7" fontFamily="monospace" opacity="0.6">FOCUS</text>
       </svg>
-      {/* pulsing ring */}
-      <div className="absolute h-24 w-24 rounded-full animate-pulse-glow" style={{ border: `1px solid ${accent}33` }} />
+
+      {/* pulsing ring — pulses faster when urgent */}
+      <div
+        className="absolute rounded-full"
+        style={{
+          width: "42%",
+          height: "42%",
+          border: `1px solid ${urgentColor}33`,
+          animation: `pulse-glow ${Math.max(1, 3 - urgency * 2)}s ease-in-out infinite`,
+        }}
+      />
+
+      {/* urgency glow at low time */}
+      {urgency > 0.7 && (
+        <div
+          className="absolute inset-0"
+          style={{
+            background: `radial-gradient(circle at center, ${urgentColor}11, transparent 60%)`,
+            animation: "pulse-glow 1s ease-in-out infinite",
+          }}
+        />
+      )}
     </div>
   );
 }
