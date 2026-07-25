@@ -582,6 +582,7 @@ function Layers({ accent }: { accent: string }) {
 
 /** Pomodoro — live countdown timer with particle effects */
 function Timer({ accent }: { accent: string }) {
+  const maxSeconds = 25 * 60; // full dial = 25 min
   const initialSeconds = useRef(Math.floor(Math.random() * 25 + 1) * 60); // random 1-25 min
   const [secondsLeft, setSecondsLeft] = useState(initialSeconds.current);
   const [particles, setParticles] = useState<{ id: number; x: number; y: number; vx: number; vy: number; life: number }[]>([]);
@@ -637,7 +638,7 @@ function Timer({ accent }: { accent: string }) {
   const mins = Math.floor(secondsLeft / 60);
   const secs = secondsLeft % 60;
   const timeStr = `${String(mins).padStart(2, "0")}:${String(secs).padStart(2, "0")}`;
-  const progress = secondsLeft / initialSeconds.current; // 1 at start, 0 at end
+  const progress = secondsLeft / maxSeconds; // ring fill relative to 25-min dial
   const circumference = 2 * Math.PI * 38;
   const dashOffset = circumference * (1 - progress);
 
