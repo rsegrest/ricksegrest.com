@@ -2,7 +2,7 @@
 
 ## The Problem
 
-NASA engineers need to submit cost estimates and scope-of-work documents for every project proposal. For years, this was done in spreadsheets, emailed back and forth, copied, edited by different people, and inevitably full of mistakes. If you've ever tried to maintain a single spreadsheet across five people, you understand. Now try doing it across an entire directorate.
+NASA engineers and accountants need to submit cost estimates and scope-of-work documents for every project proposal. For years, this was done in spreadsheets, emailed back and forth, copied, edited by different people, and inevitably full of mistakes. If you've ever tried to maintain a single spreadsheet across five people, you understand. Now try doing it across an entire directorate.
 
 The most painful bug wasn't a formula error or a broken reference. Engineers were accidentally submitting proposals with duplicate costs, the same work quoted twice because it appeared in two different spreadsheets that nobody realized were both in play. To the customer, it looked like the project would cost far more than it actually should. That's the kind of mistake that doesn't show up in review until it's already embarrassing.
 
