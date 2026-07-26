@@ -145,13 +145,13 @@ export function HomePage() {
                 See My Work
                 <ArrowRight className="h-3.5 w-3.5" />
               </a>
-              <a
+              {/* <a
                 href="/blog"
                 className="flex items-center gap-1.5 rounded-lg glass px-4 py-2 text-sm font-semibold text-cyan-300 transition hover:ring-2 hover:ring-cyan-400/40"
               >
                 <BookOpen className="h-3.5 w-3.5" />
                 Read the Blog
-              </a>
+              </a> */}
               <a
                 href="mailto:rsegrest77+ghpg@gmail.com"
                 className="flex items-center gap-1.5 rounded-lg glass px-4 py-2 text-sm font-semibold text-cyan-300 transition hover:ring-2 hover:ring-cyan-400/40"

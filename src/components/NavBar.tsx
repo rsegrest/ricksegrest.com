@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 
 const NAV_ITEMS = [
   { to: "/", label: "Gallery", icon: LayoutGrid },
-  { to: "/blog", label: "Blog", icon: BookOpen },
+  // { to: "/blog", label: "Blog", icon: BookOpen },
   { to: "/resume", label: "Resume", icon: FileText },
   { to: "/about", label: "About", icon: User },
 ];
@@ -60,7 +60,7 @@ export function NavBar() {
 
         {/* external links */}
         <div className="flex items-center gap-2">
-          <a
+          {/* <a
             href={TRAVEL_MAP_URL}
             target="_blank"
             rel="noreferrer"
@@ -68,7 +68,7 @@ export function NavBar() {
             title="Travel Map"
           >
             <Map className="h-4 w-4" />
-          </a>
+          </a> */}
           <a
             href="https://github.com/rsegrest"
             target="_blank"
@@ -77,15 +77,6 @@ export function NavBar() {
             title="GitHub"
           >
             <Github className="h-4 w-4" />
-          </a>
-          <a
-            href="https://ricksegrest.com"
-            target="_blank"
-            rel="noreferrer"
-            className="grid h-9 w-9 place-items-center rounded-xl border border-[var(--color-hairline)] bg-[var(--color-ink)]/40 text-white/70 transition hover:bg-white/5 hover:text-white"
-            title="Live Site"
-          >
-            <ExternalLink className="h-4 w-4" />
           </a>
         </div>
       </div>
