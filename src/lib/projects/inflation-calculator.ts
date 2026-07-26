@@ -9,7 +9,7 @@ export const inflation_calculator: Project = {
     tags: ["Python", "Flask", "React", "TypeScript", "Bootstrap", "Chart.js", "Docker"],
     date: "2026-02-03 — 2026-02-10",
     media: { type: "animation", animation: "decay", accent: "#22d3ee" },
-    links: { repo: "https://github.com/rsegrest/inflation-calc-gui" },
+    links: { live: "https://inflation-calc-gui.vercel.app", repo: "https://github.com/rsegrest/inflation-calc-gui" },
     githubRepo: "rsegrest/inflation-calc-gui",
     subprojects: [
       { title: "Inflation Calculator API", repo: "https://github.com/rsegrest/inflation-calc-api" },

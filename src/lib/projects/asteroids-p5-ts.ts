@@ -9,7 +9,7 @@ export const asteroids_p5_ts: Project = {
     tags: ["TypeScript", "p5.js", "Canvas", "Retro"],
     date: "2022-12-03 — 2026-02-15",
     media: { type: "animation", animation: "vector", accent: "#a3e635" },
-    links: { repo: "https://github.com/rsegrest/asteroids-p5-ts" },
+    links: { repo: "https://github.com/rsegrest/asteroids-p5-ts", live: "https://asteroids-rick.vercel.app" },
     githubRepo: "rsegrest/asteroids-p5-ts",
     techStack: [
       { label: "The Look", items: "White outlines on black — exactly like the original arcade machine's vector display" },
