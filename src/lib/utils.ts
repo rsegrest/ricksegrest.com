@@ -6,7 +6,21 @@ export function formatDate(iso: string): string {
   // Handle date ranges with " — " separator
   if (iso.includes(" — ")) {
     const [start, end] = iso.split(" — ");
-    return `${formatSingle(start)} — ${formatSingle(end)}`;
+    const sd = new Date(start + "T00:00:00");
+    const ed = new Date(end + "T00:00:00");
+    if (isNaN(sd.getTime()) || isNaN(ed.getTime())) return iso;
+
+    const sm = sd.toLocaleDateString("en-US", { month: "short" });
+    const em = ed.toLocaleDateString("en-US", { month: "short" });
+    const sy = sd.getFullYear();
+    const ey = ed.getFullYear();
+
+    // Same month & year: "Feb 2026"
+    if (sm === em && sy === ey) return `${sm} ${sy}`;
+    // Same year, different months: "Oct — Nov 2024"
+    if (sy === ey) return `${sm} — ${em} ${sy}`;
+    // Different years: "Dec 2023 — Jan 2024"
+    return `${sm} ${sy} — ${em} ${ey}`;
   }
   return formatSingle(iso);
 }
