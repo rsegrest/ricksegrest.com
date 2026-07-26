@@ -19,7 +19,7 @@ const EXPERIENCE = [
       "Primary developer in NASA IRAD effort to design, prototype, and implement NASA Software Engineering Requirements Tailoring Tool (SERTT).",
       "Led effort to recreate and modernize THOR, a legacy NASA application querying the HOSC's centralized library of raw ISS payload data.",
     ],
-    awards: ["Spot Bonus (April 2024)", "JuMP Mentoring Program (2023)", "Extra Miler Award (April 2023)"],
+    awards: ["MSFC Team Innovation Award (Fall 2025)", "Spot Bonus (April 2024)", "JuMP Mentoring Program (2023)", "Extra Miler Award (April 2023)"],
   },
   {
     company: "ASRC FEDERAL",
