@@ -21,6 +21,7 @@
         if (redirect) {
           sessionStorage.removeItem('redirect');
           window.history.replaceState(null, '', redirect);
+          window.dispatchEvent(new PopStateEvent('popstate'));
         }
       })();
     </script>
