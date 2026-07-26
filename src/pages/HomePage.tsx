@@ -317,8 +317,8 @@ export function HomePage() {
               <span className="text-gradient">Let's build something.</span>
             </h2>
             <p className="mx-auto mt-3 max-w-xl text-[15px] leading-relaxed text-[var(--color-fg-soft)]">
-              I'm open to consulting and full-time opportunities. If you need a developer who can
-              turn complex data into tools people actually want to use, let's talk.
+              Want to build a project, or do you just need some help? I specialize in turning
+              NASA-scale complexity into tools people enjoy using.
             </p>
             <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
               <a
