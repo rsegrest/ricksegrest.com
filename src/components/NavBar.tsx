@@ -16,7 +16,7 @@ export function NavBar() {
   const location = useLocation();
 
   return (
-    <nav className="sticky top-0 z-40 border-b border-[var(--color-hairline)] glass-strong">
+    <nav className="sticky top-0 z-40 glass-bar">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-3">
         {/* brand */}
         <NavLink

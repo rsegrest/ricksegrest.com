@@ -91,6 +91,17 @@ body {
   border: 1px solid var(--color-hairline-strong);
 }
 
+/* nav/toolbar bars — dimensional: highlight top, shadow bottom, no sides */
+.glass-bar {
+  background: color-mix(in oklch, var(--color-ink-2) 72%, transparent);
+  backdrop-filter: blur(26px) saturate(180%);
+  -webkit-backdrop-filter: blur(26px) saturate(180%);
+  border-top: 1px solid var(--color-hairline-strong);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.35);
+  border-left: none;
+  border-right: none;
+}
+
 /* ── ambient page glow ── */
 .ambient::before {
   content: "";

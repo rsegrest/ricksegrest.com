@@ -179,7 +179,7 @@ export function HomePage() {
       </header>
 
       {/* toolbar — single row */}
-      <div className="sticky top-[57px] z-30 border-b border-[var(--color-hairline)] glass-strong">
+      <div className="sticky top-[57px] z-30 glass-bar">
         <div className="mx-auto flex max-w-7xl items-center gap-2 px-6 py-2">
           {/* search */}
           <div className="relative flex-1">
