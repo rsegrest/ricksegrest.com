@@ -7,6 +7,7 @@ import { AboutPage } from "@/pages/AboutPage";
 import { ProjectPage } from "@/pages/ProjectPage";
 import { BlogListPage } from "@/pages/BlogListPage";
 import { BlogPostPage } from "@/pages/BlogPostPage";
+import { GameOfLifeBackground } from "@/components/GameOfLifeBackground";
 
 function AnimatedRoutes() {
   const location = useLocation();
@@ -36,6 +37,7 @@ function AnimatedRoutes() {
 export default function App() {
   return (
     <BrowserRouter>
+      <GameOfLifeBackground />
       <NavBar />
       <AnimatedRoutes />
     </BrowserRouter>
