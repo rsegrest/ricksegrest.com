@@ -2,9 +2,9 @@ import type { Project } from "../types";
 
 // import { nasa_proposal_estimator } from "./nasa-proposal-estimator";
 import { local_llm_chat } from "./local-llm-chat";
-import { agentic_patterns_mvps } from "./agentic-patterns-mvps";
+// import { agentic_patterns_mvps } from "./agentic-patterns-mvps";
 // import { game_clawtroller } from "./game-clawtroller";
-import { ux_critique_tool } from "./ux-critique-tool";
+// import { ux_critique_tool } from "./ux-critique-tool";
 // import { hyperfocus_planner } from "./hyperfocus-planner";
 // import { joust_resurrected } from "./joust-resurrected";
 import { inflation_calculator } from "./inflation-calculator";
@@ -20,9 +20,9 @@ import { hermes_mission_control } from "./hermes-mission-control";
 export const SEED_PROJECTS: Project[] = [
   // nasa_proposal_estimator,   // needs more work
   local_llm_chat,
-  agentic_patterns_mvps,
+  // agentic_patterns_mvps,
   // game_clawtroller,           // needs more work
-  ux_critique_tool,
+  // ux_critique_tool,
   // hyperfocus_planner,         // needs more work
   // joust_resurrected,
   inflation_calculator,
