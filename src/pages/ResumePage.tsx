@@ -9,6 +9,7 @@ const EXPERIENCE = [
     title: "Senior Software Engineer & Subject Matter Expert",
     subtitle: "GUI, UX, and Web Application Software Engineering",
     highlights: [
+      "Designed and built a desktop application (Electron/React/TypeScript) that centralizes NASA proposal cost estimating and scope-of-work generation, replacing error-prone spreadsheet workflows with a single source of truth — projected six-figure cost savings by eliminating duplicate budget entries.",
       "Led 5-person team for NASA Engineering Materials (EM04) that delivered alpha version of Dyreqt SaaS in 8 weeks under FY surge, enabling non-Python users to adopt the tool, eliminating the need for week-long user training sessions.",
       "Awarded NASA Marshall Space Flight Center (MSFC) Team Innovation Award in Fall 2025 for innovation and advancement of system-of-systems analysis methods applied to multi-element human exploration architectures.",
       "Created and taught two courses for the Jacobs MPP: Introduction to React Web Application Development, and Streamlining DevOps. Awarded 2023 TIPI Grant to author a 100-page internal tutorial book.",
