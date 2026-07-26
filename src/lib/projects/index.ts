@@ -1,35 +1,35 @@
 import type { Project } from "../types";
 
-import { nasa_proposal_estimator } from "./nasa-proposal-estimator";
+// import { nasa_proposal_estimator } from "./nasa-proposal-estimator";
 import { local_llm_chat } from "./local-llm-chat";
 import { agentic_patterns_mvps } from "./agentic-patterns-mvps";
-import { game_clawtroller } from "./game-clawtroller";
+// import { game_clawtroller } from "./game-clawtroller";
 import { ux_critique_tool } from "./ux-critique-tool";
-import { hyperfocus_planner } from "./hyperfocus-planner";
-import { joust_resurrected } from "./joust-resurrected";
+// import { hyperfocus_planner } from "./hyperfocus-planner";
+// import { joust_resurrected } from "./joust-resurrected";
 import { inflation_calculator } from "./inflation-calculator";
 import { asteroids_p5_ts } from "./asteroids-p5-ts";
 import { es_vector_math } from "./es-vector-math";
 import { motion_and_tween } from "./motion-and-tween";
-import { system77_typescript } from "./system77-typescript";
+// import { system77_typescript } from "./system77-typescript";
 import { jira_python_book } from "./jira-python-book";
 import { react_with_clean_architecture } from "./react-with-clean-architecture";
 import { pomodoro_vscode } from "./pomodoro-vscode";
 import { hermes_mission_control } from "./hermes-mission-control";
 
 export const SEED_PROJECTS: Project[] = [
-  nasa_proposal_estimator,
+  // nasa_proposal_estimator,   // needs more work
   local_llm_chat,
   agentic_patterns_mvps,
-  game_clawtroller,
+  // game_clawtroller,           // needs more work
   ux_critique_tool,
-  hyperfocus_planner,
-  joust_resurrected,
+  // hyperfocus_planner,         // needs more work
+  // joust_resurrected,
   inflation_calculator,
   asteroids_p5_ts,
   es_vector_math,
   motion_and_tween,
-  system77_typescript,
+  // system77_typescript,        // needs more work
   jira_python_book,
   react_with_clean_architecture,
   pomodoro_vscode,
