@@ -133,7 +133,7 @@ export function AboutPage() {
         </motion.div>
 
         <div className="mt-12 border-t border-[var(--color-hairline)] pt-6 text-center text-xs text-[var(--color-fg-muted)]">
-          When I'm not building tools for NASA, I'm reading, writing, learning by building projects, tinkering with AI, or spending time with my family.
+          When I'm not building tools for NASA, I'm reading, writing, exploring, learning by building projects, tinkering with AI, or spending time with my family.
         </div>
       </div>
     </div>
