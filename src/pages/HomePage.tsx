@@ -133,7 +133,7 @@ export function HomePage() {
 
             {/* positioning statement */}
             <p className="mt-3 max-w-2xl text-lg leading-relaxed text-white/80 sm:text-xl">
-              I build interactive data tools that make complex information explorable.
+              I turn complex systems into interfaces people want to use.
             </p>
 
             {/* CTA buttons */}
