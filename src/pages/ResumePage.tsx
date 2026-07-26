@@ -52,6 +52,7 @@ const EXPERIENCE = [
       "Won Northrop Grumman Timely Award (December 2013) for completing future-concept GCV Armored Personnel Carrier simulation and UI design prototype via Unity3D game engine.",
       "Designed and maintained team business development database with web interface tracking stakeholder contacts from 65+ captures worth $4.8B+.",
     ],
+    awards: ["Northrop Grumman Timely Award (Dec 2013)"],
   },
   {
     company: "TELEDYNE BROWN ENGINEERING",
@@ -63,6 +64,7 @@ const EXPERIENCE = [
       "Won 2 TBE Presidential Awards for Outstanding Performance (January 2010, September 2010).",
       "Led 3-person team to develop, support, and maintain modular database web portal for tracking system anomalies — used throughout Boeing GMD Program.",
     ],
+    awards: ["Presidential Award for Outstanding Performance (Sept 2010)", "Presidential Award for Outstanding Performance (Jan 2010)"],
   },
 ];
 
