@@ -3,7 +3,7 @@ import { useRef, useEffect } from "react";
 const CELL_SIZE = 3;
 const TICK_MS = 220; // ~4.5 generations per second — slow, subtle
 const RESEED_INTERVAL = 600; // generations between reseeds
-const ALPHA = 0.10;
+const ALPHA = 0.15;
 
 function createGrid(cols: number, rows: number): Uint8Array {
   const grid = new Uint8Array(cols * rows);
