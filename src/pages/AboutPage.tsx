@@ -15,7 +15,7 @@ const HIGHLIGHTS = [
   },
   {
     icon: Brain,
-    title: "Digital Twins",
+    title: "Digital Twin for ISS ECLSS system",
     text: "Supported the development of a Digital Twin for the ISS's CO₂ Scrubber system. Presented GUI innovations at Jacobs' MSFC Center-wide Program Review.",
   },
   {
