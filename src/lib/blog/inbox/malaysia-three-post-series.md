@@ -9,7 +9,7 @@
 
 ## Post 1: Twenty-Two Hours to Paradise
 
-The flight over was brutal. Twenty-two hours on the plane with a layover in Abu Dhabi, and I lost thirteen hours along the way. I'd bought an inflatable airplane pillow from Amazon before I left, which literally saved my butt, but I was pretty useless when I got there.
+The flight from Atlanta to Kuala Lumpur was brutal. Twenty-two hours with a layover in Abu Dhabi, and I lost thirteen hours along the way. I'd bought an inflatable airplane pillow from Amazon before I left, which literally saved my butt, but I was pretty useless when I got there.
 
 Most people don't know or think much about Malaysia. I didn't, either, not really. I'd been hearing about it as a haven for digital nomads and expatriates, and I wanted to see for myself. So I went in September 2025 for the Nomad Capitalist Live event.
 
