@@ -129,8 +129,9 @@ export function BlogPostPage() {
               [&_figure]:my-6 [&_figure]:mx-auto
               [&_figure_img]:w-full [&_figure_img]:rounded-xl [&_figure_img]:border [&_figure_img]:border-[var(--color-hairline)]
               [&_figcaption]:mt-3 [&_figcaption]:text-center [&_figcaption]:text-sm [&_figcaption]:text-[var(--color-fg-muted)] [&_figcaption]:italic [&_figcaption]:leading-relaxed
-              [&_div[style*='grid']_figure]:my-0
-              [&_div[style*='grid']_figure_img]:h-full [&_div[style*='grid']_figure_img]:object-cover [&_div[style*='grid']_figure_img]:aspect-[4/3]
+              [&_div[style*='grid']_figure]:my-0 [&_div[style*='grid']_figure]:flex [&_div[style*='grid']_figure]:flex-col [&_div[style*='grid']_figure]:h-full
+              [&_div[style*='grid']_figure_img]:h-48 [&_div[style*='grid']_figure_img]:w-full [&_div[style*='grid']_figure_img]:object-cover [&_div[style*='grid']_figure_img]:flex-shrink-0 [&_div[style*='grid']_figure_img]:rounded-xl [&_div[style*='grid']_figure_img]:border [&_div[style*='grid']_figure_img]:border-[var(--color-hairline)]
+              [&_div[style*='grid']_figcaption]:mt-3 [&_div[style*='grid']_figcaption]:flex-shrink-0 [&_div[style*='grid']_figcaption]:text-center [&_div[style*='grid']_figcaption]:text-sm [&_div[style*='grid']_figcaption]:text-[var(--color-fg-muted)] [&_div[style*='grid']_figcaption]:italic [&_div[style*='grid']_figcaption]:leading-relaxed
             "
           >
             <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw]}>
