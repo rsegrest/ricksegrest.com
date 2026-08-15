@@ -10,7 +10,7 @@ const NAV_ITEMS = [
   { to: "/about", label: "About", icon: User },
 ];
 
-const TRAVEL_MAP_URL = "http://localhost:3007";
+const TRAVEL_MAP_URL = "https://travel-map-ivory.vercel.app";
 
 export function NavBar() {
   const location = useLocation();
@@ -60,7 +60,7 @@ export function NavBar() {
 
         {/* external links */}
         <div className="flex items-center gap-2">
-          {/* <a
+          <a
             href={TRAVEL_MAP_URL}
             target="_blank"
             rel="noreferrer"
@@ -68,7 +68,7 @@ export function NavBar() {
             title="Travel Map"
           >
             <Map className="h-4 w-4" />
-          </a> */}
+          </a>
           <a
             href="https://github.com/rsegrest"
             target="_blank"
