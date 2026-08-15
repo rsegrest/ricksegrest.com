@@ -89,6 +89,13 @@ If you're interested in Southeastern Asian culture, it all comes together here. 
   </figure>
 </div>
 
+<figure>
+  <video controls muted width="100%" style="border-radius:0.75rem;border:1px solid var(--color-hairline);">
+    <source src="/images/malaysia/chinswee-zen.mov" type="video/quicktime" />
+  </video>
+  <figcaption>A moment of zen at the Chin Swee Temple.</figcaption>
+</figure>
+
 The city itself is more densely populated than Hong Kong, but it doesn't seem that way at all. It has grown and developed very quickly, in a vertical direction, both structurally and economically. Kuala Lumpur is a forest of modern skyscrapers rising from the jungle. Clearly following in China and Singapore's economic footsteps, not only is it highly developed, but it is also very inexpensive, safe, friendly, culturally rich, English-speaking.
 
 <figure>
