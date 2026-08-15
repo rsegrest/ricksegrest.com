@@ -1,16 +1,35 @@
 import { useParams, useNavigate, Link } from "react-router-dom";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeRaw from "rehype-raw";
-import { Calendar, Clock, ArrowLeft, Tag, BookOpen } from "lucide-react";
+import { Calendar, Clock, ArrowLeft, Tag, BookOpen, X } from "lucide-react";
 import { SEED_BLOG } from "@/lib/blog";
 import { formatDate, hueFromString } from "@/lib/utils";
+import { useState, useEffect, useCallback } from "react";
 
 export function BlogPostPage() {
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
   const post = SEED_BLOG.find((p) => p.slug === slug);
+  const [lightboxSrc, setLightboxSrc] = useState<string | null>(null);
+
+  const closeLightbox = useCallback(() => setLightboxSrc(null), []);
+
+  useEffect(() => {
+    if (lightboxSrc) {
+      document.body.style.overflow = "hidden";
+      return () => { document.body.style.overflow = ""; };
+    }
+  }, [lightboxSrc]);
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") closeLightbox();
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [closeLightbox]);
 
   if (!post) {
     return (
@@ -112,6 +131,16 @@ export function BlogPostPage() {
           className="mt-10 border-t border-[var(--color-hairline)] pt-8"
         >
           <article
+            onClick={(e) => {
+              const target = e.target as HTMLElement;
+              if (target.tagName === "IMG") {
+                const src = (target as HTMLImageElement).src;
+                // Only open lightbox for content images, not UI icons
+                if (src.includes("/images/")) {
+                  setLightboxSrc(src);
+                }
+              }
+            }}
             className="prose prose-invert max-w-none
               prose-headings:font-display prose-headings:text-white prose-headings:font-bold
               prose-h2:text-xl prose-h2:mt-10 prose-h2:mb-4
@@ -127,7 +156,7 @@ export function BlogPostPage() {
               prose-hr:border-[var(--color-hairline)] prose-hr:my-8
               prose-pre:bg-white/[0.03] prose-pre:border prose-pre:border-[var(--color-hairline)] prose-pre:rounded-xl
               [&_figure]:my-6 [&_figure]:mx-auto
-              [&_figure_img]:w-full [&_figure_img]:rounded-xl [&_figure_img]:border [&_figure_img]:border-[var(--color-hairline)]
+              [&_figure_img]:w-full [&_figure_img]:rounded-xl [&_figure_img]:border [&_figure_img]:border-[var(--color-hairline)] [&_figure_img]:cursor-pointer [&_figure_img]:transition [&_figure_img]:hover:opacity-80
               [&_figcaption]:mt-3 [&_figcaption]:text-center [&_figcaption]:text-sm [&_figcaption]:text-[var(--color-fg-muted)] [&_figcaption]:italic [&_figcaption]:leading-relaxed
               [&_video]:w-full [&_video]:rounded-xl [&_video]:border [&_video]:border-[var(--color-hairline)]
             "
@@ -153,6 +182,38 @@ export function BlogPostPage() {
           </Link>
         </motion.div>
       </div>
+
+      {/* lightbox modal */}
+      <AnimatePresence>
+        {lightboxSrc && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-sm"
+            onClick={closeLightbox}
+          >
+            <button
+              className="absolute top-4 right-4 grid h-11 w-11 place-items-center rounded-full bg-white/10 text-white ring-1 ring-white/20 transition hover:bg-white/20"
+              onClick={closeLightbox}
+              aria-label="Close"
+            >
+              <X className="h-5 w-5" />
+            </button>
+            <motion.img
+              initial={{ scale: 0.95 }}
+              animate={{ scale: 1 }}
+              exit={{ scale: 0.95 }}
+              transition={{ duration: 0.2 }}
+              src={lightboxSrc}
+              alt=""
+              className="max-h-[90vh] max-w-[90vw] rounded-xl object-contain"
+              onClick={(e) => e.stopPropagation()}
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
