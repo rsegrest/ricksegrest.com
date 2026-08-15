@@ -5,7 +5,7 @@ export const malaysia_sanctuary: BlogPost = {
     title: "Malaysia: My Surprising Sanctuary",
     slug: "malaysia-surprising-sanctuary",
     description:
-      "A brutal flight, a surprising paradise, and the realization that travel is my own form of therapy.",
+      "Paradise before perdition.",
     date: "2026-09-20",
     tags: ["Malaysia", "Travel", "Kuala Lumpur", "Nomad Capitalist", "Essay"],
     category: "Travel",
