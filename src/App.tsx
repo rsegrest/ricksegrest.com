@@ -9,6 +9,13 @@ import { BlogListPage } from "@/pages/BlogListPage";
 import { BlogPostPage } from "@/pages/BlogPostPage";
 import { GameOfLifeBackground } from "@/components/GameOfLifeBackground";
 
+function ConditionalBackground() {
+  const location = useLocation();
+  // Only show animated background on the homepage, not on blog or other pages
+  if (location.pathname === "/") return <GameOfLifeBackground />;
+  return null;
+}
+
 function AnimatedRoutes() {
   const location = useLocation();
 
@@ -37,7 +44,7 @@ function AnimatedRoutes() {
 export default function App() {
   return (
     <BrowserRouter>
-      <GameOfLifeBackground />
+      <ConditionalBackground />
       <NavBar />
       <AnimatedRoutes />
     </BrowserRouter>
