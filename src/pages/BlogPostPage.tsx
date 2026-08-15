@@ -125,6 +125,9 @@ export function BlogPostPage() {
               prose-code:text-cyan-300 prose-code:bg-white/5 prose-code:px-1 prose-code:py-0.5 prose-code:rounded
               prose-hr:border-[var(--color-hairline)] prose-hr:my-8
               prose-pre:bg-white/[0.03] prose-pre:border prose-pre:border-[var(--color-hairline)] prose-pre:rounded-xl
+              [&_figure]:my-6 [&_figure]:mx-auto
+              [&_figure_img]:w-full [&_figure_img]:rounded-xl [&_figure_img]:border [&_figure_img]:border-[var(--color-hairline)]
+              [&_figcaption]:mt-3 [&_figcaption]:text-center [&_figcaption]:text-sm [&_figcaption]:text-[var(--color-fg-muted)] [&_figcaption]:italic [&_figcaption]:leading-relaxed
             "
           >
             <ReactMarkdown remarkPlugins={[remarkGfm]}>
