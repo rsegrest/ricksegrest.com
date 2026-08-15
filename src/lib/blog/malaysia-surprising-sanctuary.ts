@@ -23,31 +23,29 @@ Most people don't know or think much about Malaysia. I had only recently been le
 
 The Nomad Capitalist Live conference was held in the Majestic Hotel, built in 1932 during the British Colonial period. The rooms there are $110 a night. For the price of a Motel 6 in the US, I got a king bed and a standalone bathtub in addition to the walk-in shower. Breakfast and lunch were included. Not a "Continental Breakfast" -- it was a huge buffet with all kinds of things, and no good reason to leave hungry.
 
+<figure>
+  <img src="/images/malaysia/hotel-buffet-fruit.jpg" alt="Breakfast buffet with fresh cut fruit on banana leaves" />
+  <figcaption>The Majestic Hotel breakfast buffet. If you left hungry, it was your own fault.</figcaption>
+</figure>
+
 Food is taken very seriously in Malaysia, and like most things there, it costs a fraction of what inferior food costs here in the US. You could walk into any grocery or convenience store there and get an eight-inch cube of the best watermelon, pineapple, or any other tropical fruit for four ringgit (about one dollar). The same fruit in the US, if you could get it at all, would cost about $15, and half of the juice, texture, and flavor would have been wicked away in transit.
 
-<div style="display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;margin:1.5rem 0;">
-  <figure style="margin:0;">
-    <img src="/images/malaysia/grocery-watermelon.jpg" alt="Grocery store watermelon containers with RM6.00 price label" />
-    <figcaption>Six ringgit — about $1.50 — for a huge bin of fantastic fruit.</figcaption>
-  </figure>
-  <figure style="margin:0;">
-    <img src="/images/malaysia/hotel-buffet-fruit.jpg" alt="Breakfast buffet with fresh cut fruit on banana leaves" />
-    <figcaption>The Majestic Hotel breakfast buffet. If you left hungry, it was your own fault.</figcaption>
-  </figure>
-</div>
+<figure>
+  <img src="/images/malaysia/grocery-watermelon.jpg" alt="Grocery store watermelon containers with RM6.00 price label" />
+  <figcaption>Six ringgit — about $1.50 — for a huge bin of fantastic fruit.</figcaption>
+</figure>
 
 At the nearby Central Market, you could get dinner on the street for $2-3, and it would likely rival a Michelin-rated dish.
 
-<div style="display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;margin:1.5rem 0;">
-  <figure style="margin:0;">
-    <img src="/images/malaysia/central-market-walkway.jpg" alt="Central Market night market corridor with stalls and string lights" />
-    <figcaption>Central Market. Dinner on the street for $2-3.</figcaption>
-  </figure>
-  <figure style="margin:0;">
-    <img src="/images/malaysia/japanese-ramen-dinner.jpg" alt="Bowl of tonkotsu ramen with sushi and sake" />
-    <figcaption>Ramen and sushi, inside food court at Lot 10 / Isetan at Bukit Bintang. The entire food court (and the rest of the mall) was authentically Japanese.</figcaption>
-  </figure>
-</div>
+<figure>
+  <img src="/images/malaysia/central-market-walkway.jpg" alt="Central Market night market corridor with stalls and string lights" />
+  <figcaption>Central Market. Dinner on the street for $2-3.</figcaption>
+</figure>
+
+<figure>
+  <img src="/images/malaysia/japanese-ramen-dinner.jpg" alt="Bowl of tonkotsu ramen with sushi and sake" />
+  <figcaption>Ramen and sushi, inside food court at Lot 10 / Isetan at Bukit Bintang. The entire food court (and the rest of the mall) was authentically Japanese.</figcaption>
+</figure>
 
 My reason for planning to attend the Nomad Capitalist event was that I've noticed that I am about ten times happier when I'm abroad. The keynote speakers included Steve Wozniak, Glenn Greenwald, former UK Chancellor of the Exchequer Kwasi Kwarteng, and MC Andrew Henderson, whose YouTube channel and book I'd been following before signing up.
 
@@ -55,43 +53,44 @@ The other speakers spoke in detail about how to invest, travel, and diversify aw
 
 If you're interested in Southeastern Asian culture, it all comes together here. Chinese, Japanese, Thai, and Indian people, their food, and their art and influence was juxtaposed and distributed throughout Kuala Lumpur, along with the surprisingly rich Malay culture, with remnants of British colonization. Although the slim majority of Malays practice Islam, they encourage other religious practices and welcome visitors from around the world. The Batu Caves temple (Hindu) on the edge of the city, and Chin Swee temple (Buddhist) in the nearby Genting Highlands are beautiful sanctuaries built near the city.
 
-<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin:1.5rem 0;">
-  <figure style="margin:0;">
-    <img src="/images/malaysia/batu-caves-entrance-murugan.jpg" alt="Batu Caves entrance with golden Murugan statue and rainbow stairs" />
-    <figcaption>Batu Caves. The golden statue is Lord Murugan — 140 feet tall.</figcaption>
-  </figure>
-  <figure style="margin:0;">
-    <img src="/images/malaysia/batu-caves-temple-exterior.jpg" alt="Colorful Hindu temple against limestone cliff at Batu Caves" />
-    <figcaption>Batu Caves is a must-see: a Hindu temple and sanctuary built into a limestone cliff, just outside the city.</figcaption>
-  </figure>
-  <figure style="margin:0;">
-    <img src="/images/malaysia/batu-caves-interior.jpg" alt="Batu Caves interior with red-carpeted stairs and temple pavilion" />
-    <figcaption>Inside Batu Caves, temple at the top of the mountain of stairs.</figcaption>
-  </figure>
-  <figure style="margin:0;">
-    <img src="/images/malaysia/hindu-temple-sculpture.jpg" alt="Polychrome elephant sculpture at Hindu temple" />
-    <figcaption>Elephants holding up a temple pillar at Batu Caves. There was incredible relief paintings everywhere.</figcaption>
-  </figure>
-  <figure style="margin:0;">
-    <img src="/images/malaysia/monkey-eating-banana.jpg" alt="Macaque eating a banana on a stone post" />
-    <figcaption>A monkey eating a stereotypical treat.</figcaption>
-  </figure>
-</div>
-
-<div style="display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;margin:1.5rem 0;">
-  <figure style="margin:0;">
-    <img src="/images/malaysia/chin-swee-pagoda-overlook.jpg" alt="Chin Swee temple pagoda with misty mountains" />
-    <figcaption>Chin Swee temple pagoda in the Genting Highlands, 6,000 feet above KL. I have no idea how they built it all or even managed to get the building materials up there.</figcaption>
-  </figure>
-  <figure style="margin:0;">
-    <img src="/images/malaysia/giant-buddha-statue.jpg" alt="Giant stone Buddha statue with woman and child for scale" />
-    <figcaption>The Buddha at Chin Swee. The woman in pink gives you the scale.</figcaption>
-  </figure>
-</div>
+<figure>
+  <img src="/images/malaysia/batu-caves-entrance-murugan.jpg" alt="Batu Caves entrance with golden Murugan statue and rainbow stairs" />
+  <figcaption>Batu Caves. The golden statue is Lord Murugan — 140 feet tall.</figcaption>
+</figure>
 
 <figure>
-  <video controls muted width="100%" style="border-radius:0.75rem;border:1px solid var(--color-hairline);">
-    <source src="/images/malaysia/chinswee-zen.mov" type="video/quicktime" />
+  <img src="/images/malaysia/batu-caves-temple-exterior.jpg" alt="Colorful Hindu temple against limestone cliff at Batu Caves" />
+  <figcaption>Batu Caves is a must-see: a Hindu temple and sanctuary built into a limestone cliff, just outside the city.</figcaption>
+</figure>
+
+<figure>
+  <img src="/images/malaysia/batu-caves-interior.jpg" alt="Batu Caves interior with red-carpeted stairs and temple pavilion" />
+  <figcaption>Inside Batu Caves, temple at the top of the mountain of stairs.</figcaption>
+</figure>
+
+<figure>
+  <img src="/images/malaysia/hindu-temple-sculpture.jpg" alt="Polychrome elephant sculpture at Hindu temple" />
+  <figcaption>Elephants holding up a temple pillar at Batu Caves. There was incredible relief paintings everywhere.</figcaption>
+</figure>
+
+<figure>
+  <img src="/images/malaysia/monkey-eating-banana.jpg" alt="Macaque eating a banana on a stone post" />
+  <figcaption>A monkey eating a stereotypical treat.</figcaption>
+</figure>
+
+<figure>
+  <img src="/images/malaysia/chin-swee-pagoda-overlook.jpg" alt="Chin Swee temple pagoda with misty mountains" />
+  <figcaption>Chin Swee temple pagoda in the Genting Highlands, 6,000 feet above KL. I have no idea how they built it all or even managed to get the building materials up there.</figcaption>
+</figure>
+
+<figure>
+  <img src="/images/malaysia/giant-buddha-statue.jpg" alt="Giant stone Buddha statue with woman and child for scale" />
+  <figcaption>The Buddha at Chin Swee. The woman in pink gives you the scale.</figcaption>
+</figure>
+
+<figure>
+  <video controls muted playsinline width="100%" style="border-radius:0.75rem;border:1px solid var(--color-hairline);">
+    <source src="/images/malaysia/chinswee-zen.mp4" type="video/mp4" />
   </video>
   <figcaption>A moment of zen at the Chin Swee Temple.</figcaption>
 </figure>
@@ -110,16 +109,15 @@ The city itself is more densely populated than Hong Kong, but it doesn't seem th
 
 Our kids will be grown soon, and it doesn't take a mathematician to see that the cost of living in a place like Malaysia (or even Mexico) grants you a lot more freedom to travel, start a business, or just retire and enjoy family life if you choose.
 
-<div style="display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;margin:1.5rem 0;">
-  <figure style="margin:0;">
-    <img src="/images/malaysia/truefitt-and-hill.jpg" alt="Truefitt & Hill barbershop storefront in Kuala Lumpur mall" />
-    <figcaption>Truefitt & Hill, est. 1805, St. James's London — in a Kuala Lumpur mall, where I got the best haircut of my life.</figcaption>
-  </figure>
-  <figure style="margin:0;">
-    <img src="/images/malaysia/majestic-hotel-robe-selfie.jpg" alt="Rick in hotel bathrobe selfie" />
-    <figcaption>Back at the Majestic, with haircut.</figcaption>
-  </figure>
-</div>
+<figure>
+  <img src="/images/malaysia/truefitt-and-hill.jpg" alt="Truefitt & Hill barbershop storefront in Kuala Lumpur mall" />
+  <figcaption>Truefitt & Hill, est. 1805, St. James's London — in a Kuala Lumpur mall, where I got the best haircut of my life.</figcaption>
+</figure>
+
+<figure>
+  <img src="/images/malaysia/majestic-hotel-robe-selfie.jpg" alt="Rick in hotel bathrobe selfie" />
+  <figcaption>Back at the Majestic, with haircut.</figcaption>
+</figure>
 
 <figure>
   <img src="/images/malaysia/durian-stall.jpg" alt="Durian stall at night with neon sign and string lights" />
