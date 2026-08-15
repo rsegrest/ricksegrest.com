@@ -2,6 +2,7 @@ import { useParams, useNavigate, Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import rehypeRaw from "rehype-raw";
 import { Calendar, Clock, ArrowLeft, Tag, BookOpen } from "lucide-react";
 import { SEED_BLOG } from "@/lib/blog";
 import { formatDate, hueFromString } from "@/lib/utils";
@@ -130,7 +131,7 @@ export function BlogPostPage() {
               [&_figcaption]:mt-3 [&_figcaption]:text-center [&_figcaption]:text-sm [&_figcaption]:text-[var(--color-fg-muted)] [&_figcaption]:italic [&_figcaption]:leading-relaxed
             "
           >
-            <ReactMarkdown remarkPlugins={[remarkGfm]}>
+            <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw]}>
               {post.article}
             </ReactMarkdown>
           </article>
