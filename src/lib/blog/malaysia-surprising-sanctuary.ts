@@ -17,7 +17,7 @@ export const malaysia_sanctuary: BlogPost = {
 Most people don't know or think much about Malaysia. I had only recently been learning about it as a haven for digital nomads and expatriates, and I wanted to see for myself. So I went in September 2025 for the Nomad Capitalist Live event. I really didn't know what to expect, but was surprised and amazed by what I'd found. Now I want to go back, possibly to stay.
 
 <figure>
-  <img src="/images/malaysia/majestic-hotel-lobby.jpg" alt="The Majestic Hotel lobby with grand piano and crystal chandelier" />
+  <img src="/images/malaysia/majestic-hotel-bar.jpg" alt="The Majestic Hotel lobby with grand piano and crystal chandelier" />
   <figcaption>The Majestic Hotel bar, built in 1932, still has a live grand piano performance.</figcaption>
 </figure>
 
