@@ -1,6 +1,6 @@
 import { NavLink, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
-import { LayoutGrid, FileText, User, BookOpen, Map, Github, ExternalLink } from "lucide-react";
+import { LayoutGrid, FileText, User, BookOpen, Globe, Github, ExternalLink } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const NAV_ITEMS = [
@@ -67,7 +67,7 @@ export function NavBar() {
             className="grid h-9 w-9 place-items-center rounded-xl border border-[var(--color-hairline)] bg-[var(--color-ink)]/40 text-white/70 transition hover:bg-white/5 hover:text-white"
             title="Travel Map"
           >
-            <Map className="h-4 w-4" />
+            <Globe className="h-4 w-4" />
           </a>
           <a
             href="https://github.com/rsegrest"
