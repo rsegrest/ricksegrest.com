@@ -1,6 +1,11 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "rewrites": [
+    { "source": "/globe", "destination": "https://travel-map-ivory.vercel.app/m/rick" },
+    { "source": "/globe/:path*", "destination": "https://travel-map-ivory.vercel.app/m/rick/:path*" },
+    { "source": "/m/:path*", "destination": "https://travel-map-ivory.vercel.app/m/:path*" },
+    { "source": "/api/:path*", "destination": "https://travel-map-ivory.vercel.app/api/:path*" },
+    { "source": "/_next/:path*", "destination": "https://travel-map-ivory.vercel.app/_next/:path*" },
     { "source": "/(.*)", "destination": "/index.html" }
   ]
 }

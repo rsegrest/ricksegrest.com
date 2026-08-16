@@ -10,7 +10,7 @@ const NAV_ITEMS = [
   { to: "/about", label: "About", icon: User },
 ];
 
-const TRAVEL_MAP_URL = "https://travel-map-ivory.vercel.app";
+const TRAVEL_MAP_URL = "/globe";
 
 export function NavBar() {
   const location = useLocation();
