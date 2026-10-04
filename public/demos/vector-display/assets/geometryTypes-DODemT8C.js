@@ -1,0 +1,1 @@
+var e={x:0,y:0,rotation:0,scale:1,intensity:1};export{e as t};
