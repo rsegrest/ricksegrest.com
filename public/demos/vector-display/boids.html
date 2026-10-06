@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Boids on the Beam — vector-display</title>
+    <style>:root{--lightningcss-light: ;--lightningcss-dark:initial;color-scheme:dark;--rule:#17241d;--phosphor:#8dffc0;--dim:#6d8a79}*{box-sizing:border-box}html,body{height:100%;color:var(--phosphor);background:#000;margin:0;font:13px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace}body{flex-direction:column;display:flex;overflow:hidden}header{border-bottom:1px solid var(--rule);flex:none;padding:18px 20px 10px}nav{margin-bottom:8px}nav a{color:var(--dim)}h1{letter-spacing:.16em;text-transform:uppercase;margin:0 0 6px;font-size:15px;font-weight:600}header p{color:var(--dim);max-width:76ch;margin:0}main{flex-direction:column;flex:1;min-height:0;display:flex}#stage{flex:1;place-items:center;min-height:0;padding:18px;display:grid}canvas{background:#000;border-radius:10px;display:block;box-shadow:0 0 0 1px #16201a,inset 0 0 60px #3cff9612}footer{border-top:1px solid var(--rule);flex-wrap:wrap;flex:none;align-items:flex-end;gap:16px 26px;padding:12px 20px 20px;display:flex}label{color:var(--dim);letter-spacing:.08em;text-transform:uppercase;flex-direction:column;gap:4px;font-size:11px;display:flex}label output{color:var(--phosphor);letter-spacing:0}input[type=range]{accent-color:#45d68a;width:132px}.buttons{gap:8px;display:flex}button{font:inherit;color:var(--phosphor);cursor:pointer;background:#285a3c38;border:1px solid #5ac88c66;border-radius:7px;padding:8px 13px}button:hover{background:#5ac88c38}#readout{text-align:right;color:var(--dim);margin-left:auto}#readout strong{color:var(--phosphor);font-weight:600}</style>
+    <script type="module" crossorigin src="./assets/boids-C0dx2rnI.js"></script>
+    <link rel="modulepreload" crossorigin href="./assets/PhosphorPipeline-BR9wAGG7.js">
+    <link rel="modulepreload" crossorigin href="./assets/geometryTypes-DODemT8C.js">
+  </head>
+  <body>
+    <header>
+      <nav><a href="./">Renderer benchmark</a> · <a href="font-and-3d.html">Font &amp; 3D</a> · <a href="life.html">Life on the Beam</a> · <a href="boids.html">Boids on the Beam</a></nav>
+      <h1>Boids on the Beam</h1>
+      <p>
+        Flocking, drawn as beam geometry. Each boid is an arrowhead the beam traces in
+        three strokes, pointed along its heading and brighter the faster it moves. Three
+        simple rules — do not crowd, match your neighbours, drift toward the crowd —
+        produce a flock nobody is steering. Watch the phosphor: with persistence turned
+        up the trails merge and the flock reads as one flowing organism rather than a set
+        of separate shapes.
+      </p>
+    </header>
+    <main>
+      <div id="stage">
+        <canvas id="beam-canvas"></canvas>
+      </div>
+      <footer>
+        <div class="buttons">
+          <button id="scatter">Scatter</button>
+          <button id="pause">Pause</button>
+        </div>
+        <label>Flock size <output id="count-value">220</output>
+          <input id="count" type="range" min="20" max="600" step="10" value="220" />
+        </label>
+        <label>Separation <output id="separation-value">90</output>
+          <input id="separation" type="range" min="0" max="180" step="5" value="90" />
+        </label>
+        <label>Alignment <output id="alignment-value">60</output>
+          <input id="alignment" type="range" min="0" max="180" step="5" value="60" />
+        </label>
+        <label>Cohesion <output id="cohesion-value">45</output>
+          <input id="cohesion" type="range" min="0" max="180" step="5" value="45" />
+        </label>
+        <label>Persistence <output id="persistence-value">120 ms</output>
+          <input id="persistence" type="range" min="5" max="400" step="5" value="120" />
+        </label>
+        <label>Trails <output id="trail-value">14</output>
+          <input id="trail" type="range" min="0" max="40" step="1" value="14" />
+        </label>
+        <div id="readout">
+          <div>boids <strong id="boids">0</strong></div>
+          <div>alignment <strong id="polarization">0.00</strong></div>
+          <div>segments <strong id="segments">0</strong></div>
+        </div>
+      </footer>
+    </main>
+  </body>
+</html>
