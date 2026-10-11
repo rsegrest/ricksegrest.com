@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
   FileSignature,
@@ -273,6 +274,13 @@ export function ServicesPage() {
           <span className="font-semibold text-white">Commercial networks only.</span> No government,
           ITAR-controlled or export-controlled data — not because it is uninteresting, but because the
           security review would cost you more time than the tool saves.
+        </p>
+        <p className="mt-4 text-sm text-[var(--color-fg-muted)]">
+          Running a farm, a ranch or a co-op?{" "}
+          <Link to="/services/agriculture" className="text-cyan-300 underline-offset-4 hover:underline">
+            There is an agriculture version of this page
+          </Link>{" "}
+          — same work, aimed at records, audits and reporting.
         </p>
       </section>
 
