@@ -7,6 +7,7 @@ import { AboutPage } from "@/pages/AboutPage";
 import { ProjectPage } from "@/pages/ProjectPage";
 import { BlogListPage } from "@/pages/BlogListPage";
 import { BlogPostPage } from "@/pages/BlogPostPage";
+import { ServicesPage } from "@/pages/ServicesPage";
 import { GameOfLifeBackground } from "@/components/GameOfLifeBackground";
 
 function ConditionalBackground() {
@@ -34,6 +35,7 @@ function AnimatedRoutes() {
           <Route path="/blog/:slug" element={<BlogPostPage />} />
           <Route path="/resume" element={<ResumePage />} />
           <Route path="/about" element={<AboutPage />} />
+          <Route path="/services" element={<ServicesPage />} />
           <Route path="/project/:id" element={<ProjectPage />} />
         </Routes>
       </motion.div>

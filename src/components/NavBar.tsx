@@ -1,11 +1,12 @@
 import { NavLink, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
-import { LayoutGrid, FileText, User, BookOpen, Globe, Github, ExternalLink } from "lucide-react";
+import { LayoutGrid, FileText, User, BookOpen, Globe, Github, ExternalLink, Briefcase } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const NAV_ITEMS = [
   { to: "/", label: "Gallery", icon: LayoutGrid },
   { to: "/blog", label: "Blog", icon: BookOpen },
+  { to: "/services", label: "Services", icon: Briefcase },
   { to: "/resume", label: "Resume", icon: FileText },
   { to: "/about", label: "About", icon: User },
 ];
