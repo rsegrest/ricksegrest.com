@@ -13,7 +13,6 @@ import { asteroids_p5_ts } from "./asteroids-p5-ts";
 import { es_vector_math } from "./es-vector-math";
 import { motion_and_tween } from "./motion-and-tween";
 import { jira_python_book } from "./jira-python-book";
-import { react_with_clean_architecture } from "./react-with-clean-architecture";
 import { pomodoro_vscode } from "./pomodoro-vscode";
 import { hermes_mission_control } from "./hermes-mission-control";
 // import { nasa_proposal_estimator } from "./nasa-proposal-estimator";
@@ -35,7 +34,6 @@ export const SEED_PROJECTS: Project[] = [
   es_vector_math,
   motion_and_tween,
   jira_python_book,
-  react_with_clean_architecture,
   pomodoro_vscode,
   // 1 // joust_resurrected,
   // 2 // agentic_patterns_mvps,
